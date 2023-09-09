@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { HomeScreen, ProfileScreen } from './src/screens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
@@ -23,8 +23,8 @@ const screenOptions = {
 
 export default function App() {
   return (
+      <Onboarding />
 
-    <Onboarding />
     // <NavigationContainer>
     //   <Tab.Navigator>
     //     <Tab.Screen 
@@ -53,8 +53,30 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+
+  darkCircle: {
+    borderRadius: 300/2,
+    height: 300,
+    width: 300,
+    backgroundColor: "#7434A4",
+    top: -90,
+    right: 90
+  },
+
+  lightCircle: {
+    borderRadius: 320/2,
+    height: 320,
+    width: 320,
+    backgroundColor: "#D1A4F3",
+    top: -45,
+    right: 160
+  },
+
+  circles:{
+    position: 'absolute',
+    zIndex: 2,
+    display: 'flex',
+    flexDirection: 'row'
+  }
 });

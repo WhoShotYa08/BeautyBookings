@@ -1,10 +1,15 @@
 import Onboarding from "react-native-onboarding-swiper";
 import styles from "./Style";
-import { TouchableOpacity, Image } from "react-native";
+import { TouchableOpacity, Image, SafeAreaView, View } from "react-native";
 
 export default function OnboardingScreen(){
     return(
-
+        <SafeAreaView style={{flex: 1}}>
+            <View style={styles.circles}>
+                <View style={styles.darkCircle}></View>
+                <View style={styles.lightCircle}></View>
+            </View>
+            
             <Onboarding 
                 
                 pages={
@@ -32,6 +37,6 @@ export default function OnboardingScreen(){
                 ]
                 }
             />
-
+        </SafeAreaView>
     )
 }
