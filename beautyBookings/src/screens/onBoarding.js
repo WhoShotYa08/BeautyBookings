@@ -1,21 +1,28 @@
 import Onboarding from "react-native-onboarding-swiper";
 import styles from "./Style";
 import { TouchableOpacity, Image, SafeAreaView, View } from "react-native";
-
+import Arrow from "react-native-arrow"
 
 const Rectangle = ({selected}) => {
-    var backgroundColor;
+    var backgroundColor, height;
 
-    backgroundColor = selected ? "#7434A4" : "#D1A4F3"
+    backgroundColor = selected ? "#7434A4" : "#D1A4F3";
+    height = selected? 15 : 9;
     return (
         <View 
         style={{
-            width: 18,
-            height: 9,
+            width: 28,
+            height,
             marginHorizontal: 3,
             backgroundColor,
           }}    
         />
+    )
+}
+
+const Arrows = () =>{
+    return(
+        <Arrow size={15} color="#D1A4F3"/>
     )
 }
 export default function OnboardingScreen(){
@@ -28,8 +35,11 @@ export default function OnboardingScreen(){
 
             <Onboarding 
                 DotComponent={Rectangle}
+                NextButtonComponent={Arrows}
                 allowFontScaling={false}
-                
+                bottomBarColor="white"
+           
+
                 pages={
                     [{
                         backgroundColor: "white",
