@@ -2,6 +2,22 @@ import Onboarding from "react-native-onboarding-swiper";
 import styles from "./Style";
 import { TouchableOpacity, Image, SafeAreaView, View } from "react-native";
 
+
+const Rectangle = ({selected}) => {
+    var backgroundColor;
+
+    backgroundColor = selected ? "#7434A4" : "#D1A4F3"
+    return (
+        <View 
+        style={{
+            width: 18,
+            height: 9,
+            marginHorizontal: 3,
+            backgroundColor,
+          }}    
+        />
+    )
+}
 export default function OnboardingScreen(){
     return(
         <SafeAreaView style={{flex: 1}}>
@@ -9,8 +25,10 @@ export default function OnboardingScreen(){
                 <View style={styles.darkCircle}></View>
                 <View style={styles.lightCircle}></View>
             </View>
-            
+
             <Onboarding 
+                DotComponent={Rectangle}
+                allowFontScaling={false}
                 
                 pages={
                     [{
