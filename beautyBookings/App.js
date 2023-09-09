@@ -2,7 +2,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { HomeScreen, ProfileScreen } from './src/screens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
-import { Entypo } from ""
+import { Entypo } from "@expo/vector-icons";
+
 const Tab = createBottomTabNavigator();
 
 const screenOptions = {
@@ -26,8 +27,18 @@ export default function App() {
         <Tab.Screen 
           name="Home"
           component={HomeScreen}
-          options={(focused)=>{
+          options={{
+            tabBarIcon: ({focused})=>{
+              return(
+                <View>
+                  <Entypo 
+                  name='home' size={24} color={focused? "#16247d" : "#111"}
+                  />
+                  <Text>Home</Text>
+              </View>
+              )
 
+            }
           }} 
         />
         <Tab.Screen name="Profile" component={ProfileScreen}/>
