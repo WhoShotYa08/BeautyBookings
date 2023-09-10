@@ -36,6 +36,11 @@ const styles = StyleSheet.create({
         zIndex: 2,
         display: 'flex',
         flexDirection: 'row'
+      },
+
+      header:{
+        fontSize: 35,
+        fontWeight: 'bold'
       }
 })
 

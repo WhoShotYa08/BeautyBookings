@@ -2,6 +2,8 @@ import Onboarding from "react-native-onboarding-swiper";
 import styles from "./Style";
 import { TouchableOpacity, Image, SafeAreaView, View } from "react-native";
 import Arrow from "react-native-arrow"
+import LottieView from "lottie-react-native";
+
 
 const Rectangle = ({selected}) => {
     var backgroundColor, height;
@@ -43,21 +45,21 @@ export default function OnboardingScreen(){
                 pages={
                     [{
                         backgroundColor: "white",
-                        image: <Image style={styles.img} source={require("../images/fashion-blogger.png")}/>,
+                        image: <LottieView source={require("../assets/hairStylist.json")} autoPlay style={styles.img}/>,
                         title: "fashion Blogger",
                         subtitle: "Help  you find the best hairdressers in town and book the most suitable appointments for you"
                     },
 
                     {
                         backgroundColor: "white",
-                        image: <Image style={styles.img} source={require("../images/online-chat.png")}/>,
+                        image: <LottieView source={require("../assets/chatting.json")} autoPlay style={styles.img}/>,
                         title: "Online Chatting",
                         subtitle: "Communicate your preffered style with the hairdresser and book the slot available according to their calender"
                     },
 
                     {
                         backgroundColor: "white",
-                        image: <Image style={styles.img} source={require("../images/meetme.png")}/>,
+                        image: <LottieView source={require("../assets/notification.json")} autoPlay style={styles.img}/>,
                         title: "Notifications",
                         subtitle: "Recieve push notifications going towards your booking date to make sure you never forget"
                     }
