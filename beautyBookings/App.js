@@ -25,35 +25,36 @@ const screenOptions = {
 
 export default function App() {
 
-  // const [isLoading, setIsLoading] = useState(true)
-
-  // return isLoading? <LandingScreen func={setIsLoading}/> :<Onboarding />
+  const [isLoading, setIsLoading] = useState(true)
+  return isLoading? <LandingScreen func={setIsLoading}/> : <Onboarding />
+  
+  
   return (
-    // <Onboarding />
-    <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen 
-            name="Home"
-            component={HomeScreen}
-            options={{
-              tabBarIcon: ({focused})=>{
-                return(
-                  <View>
-                    <Entypo 
-                    name='home' size={24} color={focused? "#16247d" : "#111"}
-                    />
-                    <Text>Home</Text>
-                </View>
-                )
+    <Onboarding />
+    // <SafeAreaView style={styles.container}>
+    //   <NavigationContainer>
+    //     <Tab.Navigator>
+    //       <Tab.Screen 
+    //         name="Home"
+    //         component={HomeScreen}
+    //         options={{
+    //           tabBarIcon: ({focused})=>{
+    //             return(
+    //               <View>
+    //                 <Entypo 
+    //                 name='home' size={24} color={focused? "#16247d" : "#111"}
+    //                 />
+    //                 <Text>Home</Text>
+    //             </View>
+    //             )
 
-              }
-            }} 
-          />
-          <Tab.Screen name="Profile" component={ProfileScreen}/>
-        </Tab.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+    //           }
+    //         }} 
+    //       />
+    //       <Tab.Screen name="Profile" component={ProfileScreen}/>
+    //     </Tab.Navigator>
+    //   </NavigationContainer>
+    // </SafeAreaView>
 
   );
 }

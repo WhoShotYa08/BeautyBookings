@@ -20,7 +20,7 @@ export default function LandingScreen({func}){
             <LottieView 
                 source={require("../assets/Welcome.json")}
                 autoPlay
-                loop={true}
+                loop={false}
                 resizeMode="cover"
                 onAnimationFinish={() =>func(false)}
             />
