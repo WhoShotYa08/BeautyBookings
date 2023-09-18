@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Onboarding from './src/screens/onBoarding';
 import { Entypo } from "@expo/vector-icons";
 import LandingScreen from './src/screens/LandingScreen';
+import Registration from './src/screens/Registration';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,12 +26,12 @@ const screenOptions = {
 
 export default function App() {
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   return isLoading? <LandingScreen func={setIsLoading}/> : <Onboarding />
   
   
-  return (
-    <Onboarding />
+  // return (
+  //   <Registration />
     // <SafeAreaView style={styles.container}>
     //   <NavigationContainer>
     //     <Tab.Navigator>
@@ -56,12 +57,12 @@ export default function App() {
     //   </NavigationContainer>
     // </SafeAreaView>
 
-  );
+  // );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//   },
 
-});
+// });

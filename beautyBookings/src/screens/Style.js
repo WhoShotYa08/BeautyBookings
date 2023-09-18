@@ -41,7 +41,22 @@ const styles = StyleSheet.create({
       header:{
         fontSize: 35,
         fontWeight: 'bold'
-      }
+      },
+
+      pageContainer:{
+        borderWidth: 1,
+        height: "75%",
+        width: "85%",
+        borderRadius: 40,
+        alignContent:'center'
+      },
+      
+      shadow:{
+        shadowColor: 'black',
+        shadowOffset: {width: 2, height: 7},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    }
 })
 
 

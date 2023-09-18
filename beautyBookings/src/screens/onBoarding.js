@@ -3,6 +3,8 @@ import styles from "./Style";
 import { TouchableOpacity, Image, SafeAreaView, View } from "react-native";
 import Arrow from "react-native-arrow"
 import LottieView from "lottie-react-native";
+import { useNavigation } from "@react-navigation/native";
+import Circles from "../components/Circles";
 
 
 const Rectangle = ({selected}) => {
@@ -27,20 +29,22 @@ const Arrows = () =>{
         <Arrow size={15} color="#D1A4F3"/>
     )
 }
+
+
+
+
 export default function OnboardingScreen(){
+    // const navigation = useNavigation() 
     return(
         <SafeAreaView style={{flex: 1}}>
-            <View style={styles.circles}>
-                <View style={styles.darkCircle}></View>
-                <View style={styles.lightCircle}></View>
-            </View>
+            <Circles />
 
             <Onboarding 
                 DotComponent={Rectangle}
                 NextButtonComponent={Arrows}
                 allowFontScaling={false}
                 bottomBarColor="white"
-           
+                // onDone={()=> navigation.navigate("Home")}
 
                 pages={
                     [{
