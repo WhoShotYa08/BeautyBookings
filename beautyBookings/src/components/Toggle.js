@@ -6,9 +6,12 @@ import Circles from "./Circles";
 const SignUp = () => {
     return(
         <View style={styles.main}>
+            <Element icon={""} placeHolder={"Name"}/>
+            <Element icon={""} placeHolder={"Surname"}/>
+            <Element icon={""} placeHolder={"Contact"}/>
             <Element icon={""} placeHolder={"Email"}/>
             <Element icon={""} placeHolder={"Password"}/>
-            <Element icon={""} placeHolder={"Password"}/>
+            <Element icon={""} placeHolder={"Confirm Password"}/>
         </View>
     )
 }
@@ -31,7 +34,6 @@ const Element = ({icon, placeHolder}) =>{
         />
 
         <Icon name = {icon} backgroundColor = "#fff" size={20}/>
-
     </View>);
 }
 

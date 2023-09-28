@@ -24,17 +24,21 @@ const Rectangle = ({selected}) => {
     )
 }
 
-const Arrows = () =>{
-    return(
-        <Arrow size={15} color="#D1A4F3"/>
-    )
-}
 
 
 
 
-export default function OnboardingScreen(){
-    // const navigation = useNavigation() 
+
+export default function OnboardingScreen({navigation}){
+
+    const Arrows = () =>{
+        return(
+            <TouchableOpacity onPress={()=>navigation.navigate('Registration')}>
+                <Arrow size={15} color="#D1A4F3"/>
+            </TouchableOpacity>
+        )
+    }
+
     return(
         <SafeAreaView style={{flex: 1}}>
             <Circles />
@@ -44,7 +48,8 @@ export default function OnboardingScreen(){
                 NextButtonComponent={Arrows}
                 allowFontScaling={false}
                 bottomBarColor="white"
-                // onDone={()=> navigation.navigate("Home")}
+                onDone={()=> navigation.navigate("Registration")}
+                // onSkip={()=>}
 
                 pages={
                     [{

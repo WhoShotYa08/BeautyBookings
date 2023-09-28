@@ -4,14 +4,17 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function GradientCircle() {
     return (
-
-        <View style={styles.oval}>
             <LinearGradient
-                colors={['rgba(0,0,0,0.8)', 'transparent']}
+                colors={[ "#D1A4F3", "#7434A4" ]}
+                style={{
+                  height: 270,
+                  width : 220,
+                  borderRadius: 210/2, 
+                  zIndex: 10,
+                  position: 'absolute'
+                }}
             >
-                <View ></View>
             </LinearGradient>
-        </View>
     )
 }
 

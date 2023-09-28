@@ -1,68 +1,25 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import React, {useState} from 'react';
-import { HomeScreen, ProfileScreen } from './src/screens';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
+import { HomeScreen, ProfileScreen, Onboarding, Registration } from './src/screens';
+import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from "@react-navigation/native";
-import Onboarding from './src/screens/onBoarding';
-import { Entypo } from "@expo/vector-icons";
 import LandingScreen from './src/screens/LandingScreen';
-import Registration from './src/screens/Registration';
 
-const Tab = createBottomTabNavigator();
 
-const screenOptions = {
-  tabBarShowLabel: false,
-  HeaderShown: false,
-  tabBarStyle:{
-    postion: 'absolute',
-    bottom: 0,
-    right: 0,
-    left: 0,
-    elevation: 0,
-    height: 60,
-    backgroundColor: '#fff'
-  }
+const Tab = createStackNavigator();
+
+export default function App() {  
+  
+  return (
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={{headerShown: false}}>
+          <Tab.Screen name="Splash" component={LandingScreen} />
+          <Tab.Screen name='Onboarding' component={Onboarding} />
+          <Tab.Screen name='Registration' component={Registration} />
+          <Tab.Screen name="Profile" component={ProfileScreen}/>
+        </Tab.Navigator>
+      </NavigationContainer>
+
+  );
 }
 
-export default function App() {
 
-  const [isLoading, setIsLoading] = useState(true);
-  return isLoading? <LandingScreen func={setIsLoading}/> : <Onboarding />
-  
-  
-  // return (
-  //   <Registration />
-    // <SafeAreaView style={styles.container}>
-    //   <NavigationContainer>
-    //     <Tab.Navigator>
-    //       <Tab.Screen 
-    //         name="Home"
-    //         component={HomeScreen}
-    //         options={{
-    //           tabBarIcon: ({focused})=>{
-    //             return(
-    //               <View>
-    //                 <Entypo 
-    //                 name='home' size={24} color={focused? "#16247d" : "#111"}
-    //                 />
-    //                 <Text>Home</Text>
-    //             </View>
-    //             )
-
-    //           }
-    //         }} 
-    //       />
-    //       <Tab.Screen name="Profile" component={ProfileScreen}/>
-    //     </Tab.Navigator>
-    //   </NavigationContainer>
-    // </SafeAreaView>
-
-  // );
-}
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-
-// });

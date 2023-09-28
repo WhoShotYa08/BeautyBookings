@@ -7,12 +7,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        zIndex: 10,
     },
 
     img: {
         height: 200,
         width: 200, 
     },
+    
      darkCircle: {
         borderRadius: 300/2,
         height: 300,
@@ -57,6 +59,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
     }
+    
+
 })
 
 
