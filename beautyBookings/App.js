@@ -11,7 +11,7 @@ export default function App() {
   
   return (
       <NavigationContainer>
-        <Tab.Navigator screenOptions={{headerShown: false}}>
+        <Tab.Navigator screenOptions={{headerShown: false}} initialRouteName='Splash'>
           <Tab.Screen name="Splash" component={LandingScreen} />
           <Tab.Screen name='Onboarding' component={Onboarding} />
           <Tab.Screen name='Registration' component={Registration} />

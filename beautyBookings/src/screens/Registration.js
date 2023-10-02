@@ -23,11 +23,11 @@ export default function Registration(){
                   height: 270,
                   width : 220,
                   borderRadius: 270/2, 
-                  zIndex: -10,
+                  zIndex: 10,
                   position: 'absolute',
                   bottom: -35,
                   left: -50,
-                  transform: [{skewY: '30deg'}]
+                  transform: [{skewY: '30deg'}],
                 }}
             >
             </LinearGradient>
