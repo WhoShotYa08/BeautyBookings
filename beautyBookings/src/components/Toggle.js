@@ -1,69 +1,142 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button, Alert, ToastAndroid } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useState } from "react";
+import { useState, createContext } from "react";
 import Circles from "./Circles";
+import { useNavigation } from '@react-navigation/native';
+import { doLogIn, doSignUp } from "./minddlewares/auth";
+import { FirebaseError } from "firebase/app";
+import { addUser, getUser } from "./minddlewares/user";
+import { FirestoreError } from "firebase/firestore";
+import {sendEmail} from "./db/email";
+import { checkEmail, validateCell, validatePassword } from "./db/signupLogic";
 
-const SignUp = () => {
-    return(
+const SignUp = ({navigation}) => {
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [cellNo, setCellNo] = useState("");
+    //recent changes
+    const [verified, setVerified] = useState(false);
+
+    const signUpHandle = async () => {
+
+        //Form validation name
+        //include sendEmail function 
+        otp = Math.floor(1000 * Math.random(validateCell) * 9999) + 1;
+
+        const results = await doSignUp(email, password);
+    
+            if (results instanceof FirebaseError) {
+                return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
+            }
+            
+            const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password})
+            sendEmail(email, otp, name);
+            if (userResults instanceof FirestoreError) {
+                return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
+            }
+    
+            console.log(userResults);
+            //recent changes
+            // navigation.navigate("OTP", {otp: otp});
+    }
+
+
+
+    return (
         <View style={styles.main}>
-            <Element icon={""} placeHolder={"Name"}/>
-            <Element icon={""} placeHolder={"Surname"}/>
-            <Element icon={""} placeHolder={"Contact"}/>
-            <Element icon={""} placeHolder={"Email"}/>
-            <Element icon={""} placeHolder={"Password"}/>
-            <Element icon={""} placeHolder={"Confirm Password"}/>
+            <Element icon={""} placeHolder={"Name"} onChangeText={(clientName) => setName(clientName)} value={name} />
+            <Element icon={""} placeHolder={"Surname"} onChangeText={(clientSurame) => setSurname(clientSurame)} value={surname} />
+            <Element icon={""} placeHolder={"Contact"} onChangeText={(cellNoText) => setCellNo(cellNoText)} value={cellNo} />
+            <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
+            <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
+            <Element icon={""} placeHolder={"Confirm Password"} onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} value={confirmPassword} />
+            <Button
+                title="Submit"
+                onPress={signUpHandle}
+            />
         </View>
     )
 }
 
 const Login = () => {
-    return(
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const signInHandle = async () => {
+
+        //Form validation name
+
+        const results = await doLogIn(email, password);
+
+        if (results instanceof FirebaseError) {
+            return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
+        }
+
+        const userResults = await getUser(results.user.uid)
+
+        if (userResults instanceof FirestoreError) {
+            return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
+        }
+
+        console.log(userResults);
+    }
+
+    return (
         <View style={styles.main}>
-            <Element icon={""} placeHolder={"Email"}/>
-            <Element icon={""} placeHolder={"Password"}/>
+            <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
+            <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
+         <Button
+                title="Submit"
+                onPress={signInHandle}
+            />
         </View>
     )
 }
 
-const Element = ({icon, placeHolder}) =>{
-    return(
-    <View style={{flexDirection: 'row', marginVertical: 7}}>
-        <TextInput 
-            placeholder={placeHolder}
-            style={[styles.input, styles.shadow]}
-        />
+export const Element = ({ icon, placeHolder, onChangeText, value }) => {
+    return (
+        <View style={{ flexDirection: 'row', marginVertical: 7 }}>
+            <TextInput
+                placeholder={placeHolder}
+                style={[styles.input, styles.shadow]}
+                onChangeText={onChangeText}
+                value={value}
+            />
 
-        <Icon name = {icon} backgroundColor = "#fff" size={20}/>
-    </View>);
+            <Icon name={icon} backgroundColor="#fff" size={20} />
+        </View>);
 }
 
 
-export default function Toggle(){
+export default function Toggle() {
     const [active, setActive] = useState(true);
 
-    const Pages = ({selected, text}) =>{
+    const Pages = ({ selected, text }) => {
 
-        backgroundColor = selected ? "#7434A4" : "#fff"; 
+        backgroundColor = selected ? "#7434A4" : "#fff";
         color = selected ? "white" : 'black';
-        fontWeight = selected ? "bold": 'light';
+        fontWeight = selected ? "bold" : 'light';
         shadowTime = selected ? styles.shadow : '';
 
-        return(
-            <TouchableOpacity style={[styles.tgStyle,{backgroundColor}, shadowTime]} onPress={()=> setActive(!active)}>
-                <Text style={[styles.text,{color, fontWeight}]}>{text}</Text>
+        return (
+            <TouchableOpacity style={[styles.tgStyle, { backgroundColor }, shadowTime]} onPress={() => setActive(!active)}>
+                <Text style={[styles.text, { color, fontWeight }]}>{text}</Text>
             </TouchableOpacity>
         )
     }
 
-    return(
+    return (
         <View>
             <View style={[styles.toggle]}>
-                <Pages selected={active} text={"Login"} /> 
+                <Pages selected={active} text={"Login"} />
                 <Pages selected={!active} text={"Sign Up"} />
             </View>
-            
+
             {
-                active? <Login /> : <SignUp />
+                active ? <Login /> : <SignUp />
             }
         </View>
 
@@ -79,28 +152,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    toggle:{
-        width:"80%",
+    toggle: {
+        width: "80%",
         borderWidth: 0.5,
         alignSelf: 'center',
         height: 55,
-        borderRadius: 15, 
+        borderRadius: 15,
         marginTop: '10%',
-        alignItems:'center',
-        justifyContent:'space-between',
-        flexDirection:'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
     },
 
     tgStyle: {
         width: "45%",
         height: "90%",
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
         borderRadius: 15,
         marginHorizontal: 7
     },
 
-    text:{
+    text: {
         fontSize: 17,
     },
 
@@ -113,9 +186,9 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
 
-    shadow:{
+    shadow: {
         shadowColor: 'black',
-        shadowOffset: {width: 2, height: 7},
+        shadowOffset: { width: 2, height: 7 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
     }
