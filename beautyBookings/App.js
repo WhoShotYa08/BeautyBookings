@@ -1,25 +1,49 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { HomeScreen, ProfileScreen, Onboarding, Registration } from './src/screens';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from "@react-navigation/native";
 import LandingScreen from './src/screens/LandingScreen';
+import UserContextWrapper, { UserContext } from './src/components/context/user';
+import OTP from './src/screens/OTP';
 
 
-const Tab = createStackNavigator();
+const Stack = createStackNavigator();
 
-export default function App() {  
-  
+export default function App() {
+
   return (
+    <UserContextWrapper>
       <NavigationContainer>
-        <Tab.Navigator screenOptions={{headerShown: false}}>
-          <Tab.Screen name="Splash" component={LandingScreen} />
-          <Tab.Screen name='Onboarding' component={Onboarding} />
-          <Tab.Screen name='Registration' component={Registration} />
-          <Tab.Screen name="Profile" component={ProfileScreen}/>
-        </Tab.Navigator>
+          <RootNavigator />
       </NavigationContainer>
-
+    </UserContextWrapper>
   );
 }
 
+const RootNavigator = () =>{
+  //recent change to enable user to go to profile if user is verified
+  const {user} = useContext(UserContext);
+
+  return user  ? <AppNavigation /> : <WelcomeNavigation />
+}
+
+
+const WelcomeNavigation = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Splash" component={LandingScreen} />
+      <Stack.Screen name='Onboarding' component={Onboarding} />
+      <Stack.Screen name='Registration' component={Registration} />
+      {/* <Stack.Screen name='OTP' component={OTP} /> */}
+    </Stack.Navigator>
+  )
+}
+
+const AppNavigation = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+    </Stack.Navigator>
+  )
+}
 
