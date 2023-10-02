@@ -22,7 +22,7 @@ export const validatePassword = (password, confirmPassword) => {
         },
       ]
     );
-    return false; 
+    return false;
   }
 
   if (password !== confirmPassword) {
@@ -31,26 +31,28 @@ export const validatePassword = (password, confirmPassword) => {
         text: "Ok",
       },
     ]);
-    return false; 
-  }
-
-  return true; 
-};
-
-export const checkEmail = (email) => {
-  if (email.indexOf("@") === -1 || email.indexOf(".") === -1) {
-    Alert.alert("Oops", "Your email address is incorrect, please confirm and try again", [
-      {
-        text: "Ok",
-      },
-    ]);
-    return false; 
+    return false;
   }
 
   return true;
 };
 
-export const validateCell = (cellNo) => {
+export const checkEmail = (email) => {
+  const userEmail = email.trim();
+  if (userEmail.indexOf("@") === -1 || userEmail.indexOf(".") === -1) {
+    console.log(userEmail);
+    Alert.alert("Oops", "Your email address is incorrect, please confirm and try again", [
+      {
+        text: "Ok",
+      },
+    ]);
+    return false;
+  }
+
+  return true;
+};
+
+export const validateCell = (cellNo, length) => {
   const onlyNumber = /^\d+$/;
   if (cellNo.length !== 10 || !onlyNumber.test(cellNo)) {
     Alert.alert("Oops", "Cell number should contain 10 digits", [
@@ -58,8 +60,16 @@ export const validateCell = (cellNo) => {
         text: "Ok",
       },
     ]);
-    return false; 
+    return false;
+  }
 
-  return true; 
+  return true;
 };
+
+export const required = (name, surname, email, password, cellNo, confirmPassword) => {
+  if(name=="" || email == "" || cellNo == "" || password == "" || confirmPassword == "" || surname == ""){
+    Alert.alert("Oops", "All fields are required", [{
+      text: "Ok"
+    }])
+  }
 }
