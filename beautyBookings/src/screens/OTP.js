@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Text, StyleSheet, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import { Text, StyleSheet, SafeAreaView, TouchableOpacity, View, ToastAndroid} from 'react-native';
 import { TextInput } from "react-native-gesture-handler";
 import sty from "./Style";
-import GradientCircle from "../components/GradientCircle";
+import GradientCircle from "../components/GradientCircle";import { generateOtp } from "../components/Toggle";
+
+
 
 export default function OtpScreen(){
     const [one, setOne] = useState();
