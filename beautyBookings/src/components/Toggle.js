@@ -72,10 +72,7 @@ const SignUp = () => {
             <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
             <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
             <Element icon={""} placeHolder={"Confirm Password"} onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} value={confirmPassword} />
-            <Button
-                title="Submit"
-                onPress={signUpHandle}
-            />
+            <Btn text={'Sign Up'} func={signUpHandle}/>
         </View>
     )
 }
