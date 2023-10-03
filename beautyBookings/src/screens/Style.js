@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         height: "75%",
         width: "85%",
         borderRadius: 40,
-        alignContent:'center'
+        alignContent:'center',
       },
       
       shadow:{

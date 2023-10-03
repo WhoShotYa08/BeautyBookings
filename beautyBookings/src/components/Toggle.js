@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button, Alert, ToastAndroid } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, ToastAndroid, ScrollView } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState, createContext } from "react";
 import Circles from "./Circles";
@@ -70,15 +70,17 @@ const SignUp = () => {
 
 
     return (
-        <View style={styles.main}>
-            <Element icon={""} placeHolder={"Name"} onChangeText={(clientName) => setName(clientName)} value={name} />
-            <Element icon={""} placeHolder={"Surname"} onChangeText={(clientSurame) => setSurname(clientSurame)} value={surname} />
-            <Element icon={""} placeHolder={"Contact"} onChangeText={(cellNoText) => setCellNo(cellNoText)} value={cellNo} />
-            <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
-            <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
-            <Element icon={""} placeHolder={"Confirm Password"} onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} value={confirmPassword} />
-            <Btn text={'Sign Up'} func={signUpHandle}/>
-        </View>
+
+            <View style={styles.main}>
+                
+                        <Element icon={""} placeHolder={"Name"} onChangeText={(clientName) => setName(clientName)} value={name} />
+                        <Element icon={""} placeHolder={"Surname"} onChangeText={(clientSurame) => setSurname(clientSurame)} value={surname} />
+                        <Element icon={""} placeHolder={"Contact"} onChangeText={(cellNoText) => setCellNo(cellNoText)} value={cellNo} />
+                        <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
+                        <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
+                        <Element icon={""} placeHolder={"Confirm Password"} onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} value={confirmPassword} />
+                        <Btn text={'Sign Up'} func={signUpHandle}/>
+            </View>
     )
 }
 

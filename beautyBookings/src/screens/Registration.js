@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, TextInput, Switch, } from "react-native";
+import { SafeAreaView, View, Text, TextInput, Switch, KeyboardAvoidingView, ScrollView} from "react-native";
 import styles from "./Style";
 import Circles from "../components/Circles";
 import Toggle from "../components/Toggle";
@@ -9,12 +9,16 @@ export default function Registration(){
     return(
         <SafeAreaView style={{flex: 1}}>
 
+            
             <View style={[styles.main]}>
                 <View style={[styles.pageContainer]}>
+                    
                     <View style={[{alignItems:'center', width: "auto"}]}>
+      
                         <Toggle />
-
+                
                     </View>
+  
                 </View>
             </View>
             <LinearGradient

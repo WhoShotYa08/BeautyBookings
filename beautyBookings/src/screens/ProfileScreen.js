@@ -8,7 +8,7 @@ import Btn from "../components/Btn";
 export default function ProfileScreen(){
     return(
         <SafeAreaView style={styles.main}>
-            <Text>Portfolio Screen</Text>
+            <Text>Profile Screen</Text>
             {/* <Button title="Logot" onPress={doLogout}/> */}
             <Btn text={'Logout'} func={doLogout}/>
         </SafeAreaView>
