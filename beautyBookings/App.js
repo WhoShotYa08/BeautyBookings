@@ -41,7 +41,7 @@ const WelcomeNavigation = () => {
 
 const AppNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='OTP'>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Profile'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
