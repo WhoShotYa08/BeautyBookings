@@ -16,7 +16,11 @@ import Btn from "./Btn";
 //     otp = Math.floor(1000 * Math.random() * 9999) + 1;
 //     return otp;
 // }
-
+export const generateOtp = () => {
+    otp = Math.floor(Math.random() * (999999 - 100000) ) + 100000;
+    
+    return otp
+};
 export const verifiedContext = createContext();
 
 const SignUp = () => {
@@ -44,15 +48,16 @@ const SignUp = () => {
             if (results instanceof FirebaseError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }
-            const userOTP  = generateOtp();
+            // const userOTP  = generateOtp();
             navigation.navigate("OTP", {
                 names: name,
                 emails: email
             });
-            console.log(userOTP);
+            // console.log(userOTP);
             
             const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified})
             // sendEmail(email, userOTP, name);
+            sendEmail(email, generateOtp(), name);
             if (userResults instanceof FirestoreError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }

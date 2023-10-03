@@ -5,14 +5,16 @@ import sty from "./Style";
 import GradientCircle from "../components/GradientCircle";
 import { generateOtp } from "../components/Toggle";
 import { sendEmail } from "../components/db/email";
+import Btn from "../components/Btn";
 
 
-export default function OtpScreen({route}){
-    const generateOtp = () => {
-        otp = Math.floor(1000 * Math.random() * 9999) + 1;
-        return otp;
-    }
-    // const {name, email} = useContext(verifiedContext);
+export default function OtpScreen({route, navigation}){
+    // const generateOtp = () => {
+    //     otp = Math.floor(Math.random() * 999999) + 1;
+        
+    //     return otp
+    // };
+
     const {names, emails} = route.params;
     console.log(names, emails);
 
@@ -22,27 +24,21 @@ export default function OtpScreen({route}){
     const [four, setFour] = useState();
     const [five, setFive] = useState();
     const [six, setSix] = useState();
-    const [final, setFinal] = useState()
-    const userOTP = generateOtp();
-
-    sendEmail(emails, userOTP, names);
+    
+    
+    
     
     const handleFinalOTP = () =>{
         let code = one + two + three+ four+ five + six
-        setFinal(code)
-    }
-
-    
-    const verifyOtp = () => {
-        if(userOTP == parseInt(otpText)){
+        if(otp == code){
             navigation.navigate("Profile");
-            console.log(userOTP, otpText)
         }
         else{
-            console.log("Shit");
-            console.log(userOTP, otpText)
+            console.log("Incorrect OTP");
         }
     }
+ 
+    
 
     return(
         <SafeAreaView style={{flex: 1}}>
@@ -94,15 +90,7 @@ export default function OtpScreen({route}){
                         onChangeText={(t)=>setSix(t)}
                     />
                 </View>
-
-                <TouchableOpacity 
-                    style={styles.btn}
-                    onPress={handleFinalOTP}
-                >
-                    <Text style={styles.btnText}>
-                        Verify
-                    </Text>
-                </TouchableOpacity>
+                <Btn text={"Verify"} func={handleFinalOTP} />
 
             </View>
             {/* <GradientCircle/> */}
