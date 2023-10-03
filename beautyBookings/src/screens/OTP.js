@@ -13,8 +13,12 @@ export default function OtpScreen(){
     const [four, setFour] = useState();
     const [five, setFive] = useState();
     const [six, setSix] = useState();
+    const [final, setFinal] = useState()
 
-
+    const handleFinalOTP = () =>{
+        let code = one + two + three+ four+ five + six
+        setFinal(code)
+    }
 
     return(
         <SafeAreaView style={{flex: 1}}>
@@ -67,8 +71,11 @@ export default function OtpScreen(){
                     />
                 </View>
 
-                <TouchableOpacity>
-                    <Text style={{fontSize: 19, marginVertical: 20, borderWidth: 1, padding: 10}}>
+                <TouchableOpacity 
+                    style={styles.btn}
+                    onPress={handleFinalOTP}
+                >
+                    <Text style={styles.btnText}>
                         Verify
                     </Text>
                 </TouchableOpacity>
@@ -95,5 +102,14 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
 
-    
+    btnText:{
+        fontSize: 19, 
+        marginVertical: 20, 
+        borderWidth: 1, 
+        padding: 10,
+        textAlign: "center"
+    },
+    btn:{
+
+    }
 })
