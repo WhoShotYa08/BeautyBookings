@@ -9,14 +9,13 @@ import { sendEmail } from "./email";
 import { useNavigation } from "@react-navigation/native";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyB8bgu81eKcc44SruD1-x1sHRQArB2Wpho",
-    authDomain: "beautybookings-c6bbe.firebaseapp.com",
-    projectId: "beautybookings-c6bbe",
-    storageBucket: "beautybookings-c6bbe.appspot.com",
-    messagingSenderId: "266514003027",
-    appId: "1:266514003027:web:35c86e152721cb9a9b42a6",
-    measurementId: "G-QX4S7RZX9L"
-  };
+  apiKey: "AIzaSyB7rLUJMy_dUnECoDIkFc1mVF6NyLpcm6g",
+  authDomain: "bookingsproject-891db.firebaseapp.com",
+  projectId: "bookingsproject-891db",
+  storageBucket: "bookingsproject-891db.appspot.com",
+  messagingSenderId: "116990391385",
+  appId: "1:116990391385:web:c5dc56735c4c7f2de16d48"
+};
 
 const app = initializeApp(firebaseConfig);
 
