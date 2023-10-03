@@ -17,10 +17,10 @@ export const generateOtp = () => {
     return otp;
 }
 
-
+export const verifiedContext = createContext();
 
 const SignUp = () => {
-    const verifiedContext = createContext();
+    
     const navigation = useNavigation();
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -45,11 +45,14 @@ const SignUp = () => {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }
             const userOTP  = generateOtp();
-            navigation.navigate("OTP");
+            navigation.navigate("OTP", {
+                names: name,
+                emails: email
+            });
             console.log(userOTP);
             
             const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified})
-            sendEmail(email, userOTP, name);
+            // sendEmail(email, userOTP, name);
             if (userResults instanceof FirestoreError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }
@@ -69,8 +72,10 @@ const SignUp = () => {
             <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
             <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
             <Element icon={""} placeHolder={"Confirm Password"} onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} value={confirmPassword} />
- 
-            <Btn text={'Sign Up'} func={signUpHandle}/>
+            <Button
+                title="Submit"
+                onPress={signUpHandle}
+            />
         </View>
     )
 }
