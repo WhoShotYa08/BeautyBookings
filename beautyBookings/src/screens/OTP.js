@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Text, StyleSheet, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import { TextInput } from "react-native-gesture-handler";
 import sty from "./Style";
-import GradientCircle from "../components/GradientCircle";import { generateOtp } from "../components/Toggle";
+import GradientCircle from "../components/GradientCircle";
+import { generateOtp } from "../components/Toggle";
+import { sendEmail } from "../components/db/email";
 
 
+export default function OtpScreen({route}){
+    // const {name, email} = useContext(verifiedContext);
+    const {names, emails} = route.params;
+    console.log(names, emails);
 
-export default function OtpScreen(){
     const [one, setOne] = useState();
     const [two, setTwo] = useState();
     const [three, setThree] = useState();
@@ -14,10 +19,25 @@ export default function OtpScreen(){
     const [five, setFive] = useState();
     const [six, setSix] = useState();
     const [final, setFinal] = useState()
+    const userOTP = generateOtp();
 
+    sendEmail(emails, userOTP, names);
+    
     const handleFinalOTP = () =>{
         let code = one + two + three+ four+ five + six
         setFinal(code)
+    }
+
+    
+    const verifyOtp = () => {
+        if(userOTP == parseInt(otpText)){
+            navigation.navigate("Profile");
+            console.log(userOTP, otpText)
+        }
+        else{
+            console.log("Shit");
+            console.log(userOTP, otpText)
+        }
     }
 
     return(
