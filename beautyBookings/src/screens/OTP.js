@@ -1,23 +1,22 @@
-// import { Element } from "../components/Toggle";
-// import React from "react";
-// import { View, Text, TouchableOpacity, Button } from "react-native";
-// import {styles} from "./Style";
+import { useState } from "react";
+import { Text, StyleSheet, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import { TextInput } from "react-native-gesture-handler";
 
-// const OTP = ({route, navigation}) => {
 
-//     const {otp} = route.params;
+export default function OtpScreen(){
+    return(
+        <SafeAreaView>
+            <View>
+                <TextInput 
+                    style={styles.inputBox}
+                />
+            </View>
+        </SafeAreaView>
+    )
+}
 
-    
-    
-//     return(
-//         <View style={styles.main}>
-//             <Text>Verification</Text>
-//             <Element />
-//             <Button 
-//                 title="Submit otp"
-//             />
-//         </View>
-//     )
-// }
-
-// export default OTP;
+const styles = StyleSheet.create({
+    inputBox: {
+        borderWidth: 1
+    }
+})
