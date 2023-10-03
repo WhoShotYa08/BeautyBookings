@@ -10,11 +10,14 @@ import { FirestoreError } from "firebase/firestore";
 import {sendEmail} from "./db/email";
 // import { checkEmail, validateCell, validatePassword } from "./db/signupLogic";
 import { collection, doc, query, where} from "firebase/firestore";
+import Btn from "./Btn";
 
 export const generateOtp = () => {
     otp = Math.floor(1000 * Math.random() * 9999) + 1;
     return otp;
 }
+
+
 
 const SignUp = () => {
     const verifiedContext = createContext();
@@ -66,10 +69,8 @@ const SignUp = () => {
             <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
             <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
             <Element icon={""} placeHolder={"Confirm Password"} onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} value={confirmPassword} />
-            <Button
-                title="Submit"
-                onPress={signUpHandle}
-            />
+ 
+            <Btn text={'Sign Up'} func={signUpHandle}/>
         </View>
     )
 }
@@ -101,10 +102,7 @@ const Login = () => {
         <View style={styles.main}>
             <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
             <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
-         <Button
-                title="Submit"
-                onPress={signInHandle}
-            />
+            <Btn text={'Login'} func={signInHandle}/>
         </View>
     )
 }
@@ -122,6 +120,8 @@ export const Element = ({ icon, placeHolder, onChangeText, value }) => {
             <Icon name={icon} backgroundColor="#fff" size={20} />
         </View>);
 }
+
+
 
 
 export default function Toggle() {
