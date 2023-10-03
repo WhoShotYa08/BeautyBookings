@@ -8,39 +8,52 @@ import { FirebaseError } from "firebase/app";
 import { addUser, getUser } from "./minddlewares/user";
 import { FirestoreError } from "firebase/firestore";
 import {sendEmail} from "./db/email";
-import { checkEmail, validateCell, validatePassword } from "./db/signupLogic";
+// import { checkEmail, validateCell, validatePassword } from "./db/signupLogic";
+import { collection, doc, query, where} from "firebase/firestore";
 
-const SignUp = ({navigation}) => {
+export const generateOtp = () => {
+    otp = Math.floor(1000 * Math.random() * 9999) + 1;
+    return otp;
+}
+
+const SignUp = () => {
+    const verifiedContext = createContext();
+    const navigation = useNavigation();
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [cellNo, setCellNo] = useState("");
+    const [verified, setVerified] = useState(false)
     //recent changes
-    const [verified, setVerified] = useState(false);
+
+
 
     const signUpHandle = async () => {
 
         //Form validation name
         //include sendEmail function 
-        otp = Math.floor(1000 * Math.random(validateCell) * 9999) + 1;
+        
 
         const results = await doSignUp(email, password);
     
             if (results instanceof FirebaseError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }
+            const userOTP  = generateOtp();
+            navigation.navigate("OTP");
+            console.log(userOTP);
             
-            const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password})
-            sendEmail(email, otp, name);
+            const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified})
+            sendEmail(email, userOTP, name);
             if (userResults instanceof FirestoreError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }
     
             console.log(userResults);
             //recent changes
-            // navigation.navigate("OTP", {otp: otp});
+            
     }
 
 
@@ -143,6 +156,8 @@ export default function Toggle() {
 
     )
 }
+
+
 
 const styles = StyleSheet.create({
     main: {

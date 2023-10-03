@@ -34,15 +34,17 @@ const WelcomeNavigation = () => {
       <Stack.Screen name="Splash" component={LandingScreen} />
       <Stack.Screen name='Onboarding' component={Onboarding} />
       <Stack.Screen name='Registration' component={Registration} />
-      {/* <Stack.Screen name='OTP' component={OTP} /> */}
+
     </Stack.Navigator>
   )
 }
 
 const AppNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='OTP'>
+      <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   )
 }
+
