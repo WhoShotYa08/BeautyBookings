@@ -8,6 +8,10 @@ import { sendEmail } from "../components/db/email";
 
 
 export default function OtpScreen({route}){
+    const generateOtp = () => {
+        otp = Math.floor(1000 * Math.random() * 9999) + 1;
+        return otp;
+    }
     // const {name, email} = useContext(verifiedContext);
     const {names, emails} = route.params;
     console.log(names, emails);

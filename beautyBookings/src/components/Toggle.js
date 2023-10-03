@@ -12,10 +12,10 @@ import {sendEmail} from "./db/email";
 import { collection, doc, query, where} from "firebase/firestore";
 import Btn from "./Btn";
 
-export const generateOtp = () => {
-    otp = Math.floor(1000 * Math.random() * 9999) + 1;
-    return otp;
-}
+// export const generateOtp = () => {
+//     otp = Math.floor(1000 * Math.random() * 9999) + 1;
+//     return otp;
+// }
 
 export const verifiedContext = createContext();
 
