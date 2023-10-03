@@ -5,7 +5,7 @@ import { TextInput } from "react-native-gesture-handler";
 
 export default function OtpScreen(){
     return(
-        <SafeAreaView>
+        <SafeAreaView style={styles.main}>
             <View>
                 <TextInput 
                     style={styles.inputBox}
@@ -16,6 +16,12 @@ export default function OtpScreen(){
 }
 
 const styles = StyleSheet.create({
+
+    main: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     inputBox: {
         borderWidth: 1
     }
