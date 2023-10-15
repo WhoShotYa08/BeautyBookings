@@ -138,7 +138,7 @@ const Login = () => {
     const signInHandle = async () => {
 
         //Form validation name
-
+        
         const results = await doLogIn(email, password);
 
         if (results instanceof FirebaseError) {
@@ -146,7 +146,7 @@ const Login = () => {
         }
 
         const userResults = await getUser(results.user.uid)
-
+        
         if (userResults instanceof FirestoreError) {
             return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
         }

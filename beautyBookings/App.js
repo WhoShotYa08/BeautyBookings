@@ -42,13 +42,13 @@ const WelcomeNavigation = () => {
   )
 }
 
+//This will only be accessed after you have logged in
 const AppNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Profile'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name='Verified' component={VerifiedScreen} />
- 
     </Stack.Navigator>
   )
 }
