@@ -11,6 +11,7 @@ import {sendEmail} from "./db/email";
 // import { checkEmail, validateCell, validatePassword } from "./db/signupLogic";
 import { collection, doc, query, where} from "firebase/firestore";
 import Btn from "./Btn";
+import PasswordInput from "./PasswordInput";
 
 // export const generateOtp = () => {
 //     otp = Math.floor(1000 * Math.random() * 9999) + 1;
@@ -85,9 +86,15 @@ const SignUp = () => {
 }
 
 const Login = () => {
+
+    const navigation = useNavigation()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+
+    const handleClientSide = () =>{
+        navigation.navigate('')
+    }
     const signInHandle = async () => {
 
         //Form validation name
@@ -110,8 +117,9 @@ const Login = () => {
     return (
         <View style={styles.main}>
             <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
-            <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
+            <PasswordInput onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
             <Btn text={'Login'} func={signInHandle}/>
+            <Btn text={"Login as Client"} func={handleClientSide}/>
         </View>
     )
 }
