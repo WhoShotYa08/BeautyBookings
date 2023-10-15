@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import LandingScreen from './src/screens/LandingScreen';
 import UserContextWrapper, { UserContext } from './src/components/context/user';
 import OTP from './src/screens/OTP';
+import ChatBox from './src/screens/Chatbox';
 
 
 const Stack = createStackNavigator();
@@ -44,6 +45,7 @@ const AppNavigation = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Profile'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Chat" component={ChatBox} />
     </Stack.Navigator>
   )
 }
