@@ -6,6 +6,7 @@ import LandingScreen from './src/screens/LandingScreen';
 import UserContextWrapper, { UserContext } from './src/components/context/user';
 import OTP from './src/screens/OTP';
 import TabNavigator from './src/ClientSide/TabNavigator';
+import VerifiedScreen from './src/screens/VerifiedScreen';
 
 
 const Stack = createStackNavigator();
@@ -46,6 +47,7 @@ const AppNavigation = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Profile'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name='Verified' component={VerifiedScreen} />
  
     </Stack.Navigator>
   )

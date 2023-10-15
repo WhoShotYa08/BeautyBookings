@@ -16,7 +16,6 @@ export default function OtpScreen({route, navigation}){
     // };
 
     const {names, emails} = route.params;
-    console.log(names, emails);
 
     const [one, setOne] = useState();
     const [two, setTwo] = useState();
@@ -31,7 +30,7 @@ export default function OtpScreen({route, navigation}){
     const handleFinalOTP = () =>{
         let code = one + two + three+ four+ five + six
         if(otp == code){
-            navigation.navigate("Profile");
+            navigation.navigate("Verified");
         }
         else{
             console.log("Incorrect OTP");
