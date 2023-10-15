@@ -1,13 +1,13 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-const BusinessExisting = () =>{
+const TabNavigator = () =>{
      return(
         <View>
-            <Text>This is the existing Screen</Text>
+            <Text>This is the Adding Screen</Text>
         </View>
      )
 
 };
 
-export default BusinessExisting;
+export default TabNavigator;
