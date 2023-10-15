@@ -19,7 +19,7 @@ export default function App() {
       </NavigationContainer>
     </UserContextWrapper>
   );
-}git 
+}
 
 const RootNavigator = () =>{
   //recent change to enable user to go to profile if user is verified
@@ -35,6 +35,7 @@ const WelcomeNavigation = () => {
       <Stack.Screen name="Splash" component={LandingScreen} />
       <Stack.Screen name='Onboarding' component={Onboarding} />
       <Stack.Screen name='Registration' component={Registration} />
+      <Stack.Screen name="TabNav" component={TabNavigator} />
 
     </Stack.Navigator>
   )
@@ -45,7 +46,7 @@ const AppNavigation = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Profile'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="TabNav" component={TabNavigator} />
+ 
     </Stack.Navigator>
   )
 }
