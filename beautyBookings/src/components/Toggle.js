@@ -1,22 +1,20 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, ToastAndroid, ScrollView } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState, createContext } from "react";
-import Circles from "./Circles";
 import { useNavigation } from '@react-navigation/native';
 import { doLogIn, doSignUp } from "./minddlewares/auth";
 import { FirebaseError } from "firebase/app";
 import { addUser, getUser } from "./minddlewares/user";
 import { FirestoreError } from "firebase/firestore";
 import {sendEmail} from "./db/email";
-// import { checkEmail, validateCell, validatePassword } from "./db/signupLogic";
-import { collection, doc, query, where} from "firebase/firestore";
 import Btn from "./Btn";
-import PasswordInput from "./PasswordInput";
+
 
 // export const generateOtp = () => {
 //     otp = Math.floor(1000 * Math.random() * 9999) + 1;
 //     return otp;
 // }
+
 export const generateOtp = () => {
     otp = Math.floor(Math.random() * (999999 - 100000) ) + 100000;
     
@@ -49,15 +47,14 @@ const SignUp = () => {
             if (results instanceof FirebaseError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }
-            // const userOTP  = generateOtp();
+
             navigation.navigate("OTP", {
                 names: name,
                 emails: email
             });
-            // console.log(userOTP);
+
             
             const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified})
-            // sendEmail(email, userOTP, name);
             sendEmail(email, generateOtp(), name);
             if (userResults instanceof FirestoreError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
@@ -68,19 +65,62 @@ const SignUp = () => {
             
     }
 
+    const [view, SetView] = useState(false)
+    const pic = view? 'eye' : 'eye-slash';
 
 
     return (
 
             <View style={styles.main}>
                 
-                        <Element icon={""} placeHolder={"Name"} onChangeText={(clientName) => setName(clientName)} value={name} />
-                        <Element icon={""} placeHolder={"Surname"} onChangeText={(clientSurame) => setSurname(clientSurame)} value={surname} />
-                        <Element icon={""} placeHolder={"Contact"} onChangeText={(cellNoText) => setCellNo(cellNoText)} value={cellNo} />
-                        <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
-                        <Element icon={""} placeHolder={"Password"} onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
-                        <Element icon={""} placeHolder={"Confirm Password"} onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} value={confirmPassword} />
-                        <Btn text={'Sign Up'} func={signUpHandle}/>
+                <Element 
+                    icon={""} 
+                    placeHolder={"Name"} 
+                    onChangeText={(clientName) => setName(clientName)} 
+                    value={name} 
+                    view={false}
+                />
+
+                <Element 
+                    icon={""} 
+                    placeHolder={"Surname"}
+                    onChangeText={(clientSurame) => setSurname(clientSurame)} 
+                    value={surname} 
+                    view={false}
+                />
+
+                <Element 
+                    icon={""} 
+                    placeHolder={"Contact"} 
+                    onChangeText={(cellNoText) => setCellNo(cellNoText)} 
+                    value={cellNo} 
+                    view={false}
+                />
+
+                <Element 
+                    icon={""} 
+                    placeHolder={"Email"} 
+                    onChangeText={(emailText) => setEmail(emailText)} 
+                    value={email}
+                    view={false}
+                    />
+                <Element 
+                    icon={pic} 
+                    placeHolder={"Password"} 
+                    onChangeText={(passwordText) => setPassword(passwordText)} 
+                    value={password} 
+                    view={view}
+                    func={()=>SetView(!view)}
+                />
+                <Element 
+                    icon={""} 
+                    placeHolder={"Confirm Password"} 
+                    onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} 
+                    value={confirmPassword} 
+                    view={false}
+                />
+                
+                <Btn text={'Sign Up'} func={signUpHandle}/>
             </View>
     )
 }
@@ -110,31 +150,60 @@ const Login = () => {
         if (userResults instanceof FirestoreError) {
             return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
         }
-
-        console.log(userResults);
     }
+    const [show, setShow] = useState(false);
+    const icon = show? 'eye' : 'eye-slash';
 
     return (
         <View style={styles.main}>
-            <Element icon={""} placeHolder={"Email"} onChangeText={(emailText) => setEmail(emailText)} value={email} />
-            <PasswordInput onChangeText={(passwordText) => setPassword(passwordText)} value={password} />
+            <Element 
+                icon={""} 
+                placeHolder={"Email"} 
+                onChangeText={(emailText) => setEmail(emailText)} value={email} 
+                view={show}
+            />
+
+            <Element 
+                icon={icon} 
+                placeHolder={"Password"} 
+                onChangeText={(passwordText) => setPassword(passwordText)} 
+                value={password} 
+                func={()=>{setShow(!show)}} 
+                view={show}
+            />
+
             <Btn text={'Login'} func={signInHandle}/>
+
             <Btn text={"Login as Client"} func={handleClientSide}/>
         </View>
     )
 }
 
-export const Element = ({ icon, placeHolder, onChangeText, value }) => {
+export const Element = ({ icon, placeHolder, onChangeText, value, func, view }) => {
+
     return (
-        <View style={{ flexDirection: 'row', marginVertical: 7 }}>
+        <View style={{
+            flexDirection: 'row', 
+            justifyContent:'space-between', 
+            alignItems: 'center', 
+            padding: 7, 
+            borderWidth: 1, 
+            borderRadius: 7,
+            marginVertical: 7
+         
+        }}>
             <TextInput
                 placeholder={placeHolder}
-                style={[styles.input, styles.shadow]}
+                style={{flex: 1}}
                 onChangeText={onChangeText}
                 value={value}
+                secureTextEntry={view}
             />
 
-            <Icon name={icon} backgroundColor="#fff" size={20} />
+            <TouchableOpacity onPress={func}>
+                <Icon name={icon} backgroundColor="#fff" size={20} />
+            </TouchableOpacity>
+
         </View>);
 }
 
