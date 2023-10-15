@@ -9,10 +9,10 @@ export default function VerifiedScreen({navigation}){
         <SafeAreaView style={{flex: 1, backgroundColor:'#7434A4',justifyContent: 'center', alignItems: 'center'}}>
             <Animated.View style={{flex: 1}}>
                 <LottieView 
-                    source={require("../assets/verify.json")}
+                    source={require("../assets/popVerified.json")}
                     autoPlay
                     loop={false}
-                    resizeMode="cover"
+                    resizeMode="center"
                     onAnimationFinish={() =>navigation.navigate("Profile")}
                 />
             </Animated.View>

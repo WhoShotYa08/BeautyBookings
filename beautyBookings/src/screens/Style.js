@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         height: 300,
         width: 300,
         backgroundColor: "#7434A4",
-        top: -90,
+        top: "-20%",
         right: 90
       },
     
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         height: 320,
         width: 320,
         backgroundColor: "#D1A4F3",
-        top: -45,
+        top: "-15%",
         right: 160
       },
     
@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
     }
-    
 
 })
 

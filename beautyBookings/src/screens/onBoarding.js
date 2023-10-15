@@ -25,10 +25,6 @@ const Rectangle = ({selected}) => {
 }
 
 
-
-
-
-
 export default function OnboardingScreen({navigation}){
 
     const Arrows = () =>{

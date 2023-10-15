@@ -65,9 +65,11 @@ const SignUp = () => {
             
     }
 
-    const [view, SetView] = useState(false)
-    const pic = view? 'eye' : 'eye-slash';
+    const [view, SetView] = useState(false);
+    const [see, setSee] = useState(false);
 
+    const pic = view? 'eye' : 'eye-slash';
+    const icon = see? 'eye' : 'eye-slash';
 
     return (
 
@@ -113,11 +115,12 @@ const SignUp = () => {
                     func={()=>SetView(!view)}
                 />
                 <Element 
-                    icon={""} 
+                    icon={icon} 
                     placeHolder={"Confirm Password"} 
                     onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} 
                     value={confirmPassword} 
-                    view={false}
+                    view={see}
+                    func={()=>setSee(!see)}
                 />
                 
                 <Btn text={'Sign Up'} func={signUpHandle}/>
@@ -160,7 +163,7 @@ const Login = () => {
                 icon={""} 
                 placeHolder={"Email"} 
                 onChangeText={(emailText) => setEmail(emailText)} value={email} 
-                view={show}
+                view={false}
             />
 
             <Element 
