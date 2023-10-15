@@ -3,6 +3,6 @@ import BusinessExisting from "./Business(Existing)";
 import BusinessRemove from "./Business(Remove)";
 import TabNavigator from "./TabNavigator";
 
-export{
+export {
     BusinessAdd, BusinessExisting, BusinessRemove, TabNavigator
 }

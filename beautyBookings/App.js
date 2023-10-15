@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import LandingScreen from './src/screens/LandingScreen';
 import UserContextWrapper, { UserContext } from './src/components/context/user';
 import OTP from './src/screens/OTP';
+import TabNavigator from './src/ClientSide/TabNavigator';
 
 
 const Stack = createStackNavigator();
@@ -18,7 +19,7 @@ export default function App() {
       </NavigationContainer>
     </UserContextWrapper>
   );
-}
+}git 
 
 const RootNavigator = () =>{
   //recent change to enable user to go to profile if user is verified
@@ -44,6 +45,7 @@ const AppNavigation = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Profile'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="TabNav" component={TabNavigator} />
     </Stack.Navigator>
   )
 }
