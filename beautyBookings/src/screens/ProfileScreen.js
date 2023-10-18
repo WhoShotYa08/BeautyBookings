@@ -6,9 +6,11 @@ import { collection, where, getDocs, query } from 'firebase/firestore';
 import { db } from "../components/db/firebase_";
 import { UserContext } from "../components/context/user";
 import Icon from 'react-native-vector-icons/Entypo';
+import { ScrollView } from "react-native-gesture-handler";
+import Btn from "../components/Btn";
 
 
-function User({name, surname, email}){
+function User({name, surname, email, cell}){
     return(
         <View style={{alignItems: 'center', bottom: "10%"}}>
             <TouchableOpacity style={{
@@ -19,6 +21,18 @@ function User({name, surname, email}){
 
             <Text style={{fontSize: 32, textAlign: 'center', fontWeight: '700'}}>{name + " " + surname}</Text>
             <Text>{email}</Text>
+            <Text style={{color: 'lightgrey'}}>{cell}</Text>
+        </View>
+    )
+}
+
+function FavHair({img, id}){
+    return(
+        <View style={{marginHorizontal: 8}} key={id}>
+            <Image
+                style={{height: 125, width:125, borderRadius: 20}}
+                source={img}
+            />
         </View>
     )
 }
@@ -46,6 +60,13 @@ export default  function ProfileScreen(){
     setTimeout(userData,0)
 
     const user = useContext(UserContext);
+    const faveHairStyles = [
+        require('../images/salon1.jpg'),
+        require('../images/salon2.jpg'),
+        require('../images/salon4.jpg'),
+        require('../images/salon5.jpg'),
+    ];
+
     return(
             <SafeAreaView style={{flex: 1, alignItems: 'center',}}>
                 <View style={{height: '20%', width:'100%'}}>
@@ -60,10 +81,25 @@ export default  function ProfileScreen(){
                 </View>
 
                 <User 
-                        name={name}
-                        surname={surname}
-                        email={email}
+                    name={name}
+                    surname={surname}
+                    email={email}
+                    cell={cell}
                     />
+                <ScrollView>
+                    <Text style={{paddingHorizontal: 10, fontSize: 22, marginBottom: 8, fontWeight: '700'}}>Favourite Hair Styles</Text>
+                    <ScrollView horizontal>
+                        {
+                            faveHairStyles.map((item, index)=>(
+                                <FavHair img={item} id={index}/>
+                            ))
+                        }
+
+                    </ScrollView>
+
+
+                </ScrollView>
+                <Btn text={"Delete Account"} color={"#d11a2a"}/>
             </SafeAreaView>
 
     )

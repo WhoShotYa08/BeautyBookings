@@ -20,6 +20,7 @@ export const generateOtp = () => {
     
     return otp
 };
+
 export const verifiedContext = createContext();
 
 const SignUp = () => {
@@ -60,13 +61,12 @@ const SignUp = () => {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }
     
-            console.log(userResults);
             //recent changes
             
     }
 
-    const [view, SetView] = useState(false);
-    const [see, setSee] = useState(false);
+    const [view, SetView] = useState(true);
+    const [see, setSee] = useState(true);
 
     const pic = view? 'eye' : 'eye-slash';
     const icon = see? 'eye' : 'eye-slash';
@@ -154,7 +154,7 @@ const Login = () => {
             return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
         }
     }
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
     const icon = show? 'eye' : 'eye-slash';
 
     return (

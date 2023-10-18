@@ -37,7 +37,8 @@ const WelcomeNavigation = () => {
       <Stack.Screen name='Onboarding' component={Onboarding} />
       <Stack.Screen name='Registration' component={Registration} />
       <Stack.Screen name="TabNav" component={TabNavigator} />
-
+      <Stack.Screen name='Verified' component={VerifiedScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   )
 }
@@ -48,7 +49,6 @@ const AppNavigation = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Profile'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name='Verified' component={VerifiedScreen} />
     </Stack.Navigator>
   )
 }

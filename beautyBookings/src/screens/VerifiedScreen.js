@@ -6,13 +6,13 @@ import LottieView from 'lottie-react-native';
 export default function VerifiedScreen({navigation}){
 
     return(
-        <SafeAreaView style={{flex: 1, backgroundColor:'#7434A4',justifyContent: 'center', alignItems: 'center'}}>
-            <Animated.View style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1, backgroundColor:'#7434A4',}}>
+            <Animated.View style={{flex: 1, padding: 20}}>
                 <LottieView 
-                    source={require("../assets/popVerified.json")}
+                    source={require("../assets/purpleVerify.json")}
                     autoPlay
                     loop={false}
-                    resizeMode="center"
+                    resizeMode="contain"
                     onAnimationFinish={() =>navigation.navigate("Profile")}
                 />
             </Animated.View>
