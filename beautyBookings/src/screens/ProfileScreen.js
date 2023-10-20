@@ -85,7 +85,8 @@ export default  function ProfileScreen(){
                     surname={surname}
                     email={email}
                     cell={cell}
-                    />
+                />
+                
                 <ScrollView>
                     <Text style={{paddingHorizontal: 10, fontSize: 22, marginBottom: 8, fontWeight: '700'}}>Favourite Hair Styles</Text>
                     <ScrollView horizontal>

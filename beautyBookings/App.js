@@ -38,7 +38,6 @@ const WelcomeNavigation = () => {
       <Stack.Screen name='Registration' component={Registration} />
       <Stack.Screen name="TabNav" component={TabNavigator} />
       <Stack.Screen name='Verified' component={VerifiedScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   )
 }
@@ -46,9 +45,11 @@ const WelcomeNavigation = () => {
 //This will only be accessed after you have logged in
 const AppNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Profile'>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Home'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name='Home' component={HomeScreen}/>
+
     </Stack.Navigator>
   )
 }
