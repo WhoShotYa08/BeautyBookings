@@ -78,7 +78,7 @@ function SaloonDetials({imgLink, name, address, workingHours}){
             </TouchableOpacity>
 
             <View>
-                <Text style={{fontWeight: '700', fontSize: 16}}>{name}</Text>
+                <Text style={{fontWeight: '700', fontSize: 16, flexWrap: 'wrap'}}>{name}</Text>
                 <Text>{address}</Text>
                 <Text>{workingHours}</Text>
 
