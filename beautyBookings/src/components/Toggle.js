@@ -55,7 +55,7 @@ const SignUp = () => {
             });
 
             
-            const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified})
+            const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified, userType: "client"})
             sendEmail(email, generateOtp(), name);
             if (userResults instanceof FirestoreError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)

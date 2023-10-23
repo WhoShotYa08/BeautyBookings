@@ -7,6 +7,7 @@ import UserContextWrapper, { UserContext } from './src/components/context/user';
 import OTP from './src/screens/OTP';
 import TabNavigator from './src/ClientSide/TabNavigator';
 import VerifiedScreen from './src/screens/VerifiedScreen';
+import ChatBox from './src/screens/Chatbox';
 
 
 const Stack = createStackNavigator();
@@ -49,7 +50,8 @@ const AppNavigation = () => {
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name='Home' component={HomeScreen}/>
-
+      <Stack.Screen name='Chat' component={ChatBox}/>
+      <Stack.Screen name='Verified' component={VerifiedScreen} />
     </Stack.Navigator>
   )
 }
