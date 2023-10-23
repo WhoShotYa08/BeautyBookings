@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import React, { useState } from "react";
 import styles from "./Style";
 import { ScrollView } from "react-native-gesture-handler";
+import Btn from "../components/Btn";
 
 
 
@@ -92,7 +93,7 @@ function SaloonDetials({imgLink, name, address, workingHours}){
 }
 
 
-export default function HomeScreen(){
+export default function HomeScreen({navigation}){
 
     const [word, setWord]= useState('');
     return(
@@ -121,7 +122,7 @@ export default function HomeScreen(){
             </View>
 
             <Text style={{fontSize: 27, fontWeight:'600', textAlign: 'center'}}>Registered Businesses</Text>
-
+            <Btn text={"Chat"} func={ () =>navigation.navigate("Chat") } />
             <ScrollView>
                 {
                     businesses.map((item, idx)=>{
@@ -142,6 +143,7 @@ export default function HomeScreen(){
 
                     })
                 }
+                
             </ScrollView>
 
         </SafeAreaView>
