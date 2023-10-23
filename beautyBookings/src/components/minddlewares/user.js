@@ -3,7 +3,7 @@ import { db } from "../db/firebase_";
 import { FirestoreError, doc, getDoc, setDoc } from "firebase/firestore";
 
 
-const addUser = async (id, data = { name: '', surname: '', cellNo: '', email: '', password: ''  }) => {
+const addUser = async (id, data = { name: '', surname: '', cellNo: '', email: '', password: '', userType: 'client'  }) => {
     try {
         let userData
         await setDoc(doc(db, "users", id), data).then(async () => {

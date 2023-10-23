@@ -95,7 +95,7 @@ function SaloonDetials({imgLink, name, address, workingHours}){
 }
 
 
-export default function HomeScreen(){
+export default function HomeScreen({navigation}){
 
     const [salonList, setSalonList] = useState([]);
 
@@ -137,7 +137,7 @@ export default function HomeScreen(){
             </View>
 
             <Text style={{fontSize: 27, fontWeight:'600', textAlign: 'center'}}>Registered Businesses</Text>
-
+            <Btn text={"Chat"} func={ () =>navigation.navigate("Chat") } />
             <ScrollView>
                 {
                     salonList.map((item, idx)=>{
@@ -158,6 +158,7 @@ export default function HomeScreen(){
 
                     })
                 }
+                
             </ScrollView>
 
         </SafeAreaView>
