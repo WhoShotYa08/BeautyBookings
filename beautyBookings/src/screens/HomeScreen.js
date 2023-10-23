@@ -3,6 +3,9 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import React, { useState } from "react";
 import styles from "./Style";
 import { ScrollView } from "react-native-gesture-handler";
+import { collection, where, getDocs, query, doc } from 'firebase/firestore';
+import { db } from "../components/db/firebase_";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 
 
@@ -67,7 +70,7 @@ function SaloonDetials({imgLink, name, address, workingHours}){
 
     return(
         <View style={{flexDirection: 'row', borderBottomWidth: 1, padding: 10}}>
-            <TouchableOpacity>
+            <View>
                 <ImageBackground source={imgLink} 
                     style={{height: 125, width: 125, marginRight: 10, alignItems: 'flex-end', justifyContent:'flex-end', padding: 7}}
                 >
@@ -75,10 +78,10 @@ function SaloonDetials({imgLink, name, address, workingHours}){
                         <Icon name={icon} size={21} color={heartColor}/>
                     </TouchableOpacity>
                 </ImageBackground>
-            </TouchableOpacity>
+            </View>
 
-            <View>
-                <Text style={{fontWeight: '700', fontSize: 16, flexWrap: 'wrap'}}>{name}</Text>
+            <View style={{flexWrap: 'wrap'}}>
+                <Text style={{fontWeight: '700', fontSize: 16, flexWrap: 'wrap',}}>{name}</Text>
                 <Text>{address}</Text>
                 <Text>{workingHours}</Text>
 
@@ -94,6 +97,19 @@ function SaloonDetials({imgLink, name, address, workingHours}){
 
 export default function HomeScreen(){
 
+    const [salonList, setSalonList] = useState([]);
+
+    async function GetDetails(){
+        const saloonRef =  query(collection( db, "salonDetails"));
+        const saloonSnap = await getDocs(saloonRef);
+
+        saloonSnap.forEach((doc)=>{
+            setSalonList((prev)=>[...prev, doc.data["details"]]);
+            console.log(salonList.length)
+        })
+    }
+
+    setTimeout(GetDetails,1000);
     const [word, setWord]= useState('');
     return(
         <SafeAreaView style={{flex: 1}}>
@@ -124,19 +140,19 @@ export default function HomeScreen(){
 
             <ScrollView>
                 {
-                    businesses.map((item, idx)=>{
+                    salonList.map((item, idx)=>{
                         let name = item.name.toLowerCase();
 
                         if (name.includes(word.toLowerCase())){
                             return(
-                                <View key={idx} style={{marginBottom: 10}}>
+                                <TouchableOpacity key={idx} style={{marginBottom: 10}}>
                                     <SaloonDetials 
                                         imgLink={item.imgLink}
                                         name={item.name}
                                         address={item.location}
                                         workingHours={item.time}
                                     />
-                                </View>
+                                </TouchableOpacity>
                             )
                         }
 

@@ -7,7 +7,7 @@ export const UserContext = createContext()
 
 const UserContextWrapper = ({children}) => {
     const [user, setUser] = useState(null);
-
+    
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
