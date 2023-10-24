@@ -7,14 +7,14 @@ import { collection, getDocs, query,} from 'firebase/firestore';
 import { db } from "../components/db/firebase_";
 
 
-function SaloonDetials({imgLink, name, address, workingHours, rating}){
+function SaloonDetials({imgLink, name, address, workingHours, rating, contacts}){
     const [liked, setLiked] = useState(false)
 
     const icon = liked? "heart": "hearto";
     const heartColor = liked? 'red': '#fff';
 
     return(
-        <View style={{flexDirection: 'row', borderBottomWidth: 1, padding: 10, width: '100%', flexWrap: 'wrap'}}>
+        <View style={{flexDirection: 'row', borderBottomWidth: 1, padding: 10, width: '100%', flexWrap: 'wrap', alignItems:'center'}}>
             <View style={{flex: 1}}>
                 <ImageBackground source={{uri:imgLink}} 
                     style={{height: 125, width: 125, marginRight: 10, alignItems: 'flex-end', justifyContent:'flex-end', padding: 7}}
@@ -29,7 +29,10 @@ function SaloonDetials({imgLink, name, address, workingHours, rating}){
                 <Text style={{fontWeight: '700', fontSize: 21, flexWrap: 'wrap'}}>{name}</Text>
                 <Text>{address}</Text>
                 <Text style={{color: 'lightgrey'}}>{workingHours}</Text>
-
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Icon name="contacts" size={18}/>
+                    <Text style={{paddingHorizontal: 5}}>{contacts}</Text>
+                </View>
                 <Stars rating={rating}/>
 
             </View>
@@ -145,19 +148,22 @@ export default function HomeScreen(){
                 {
                     salonList.map((item, idx)=>{
 
-                        let name = item['details'].name;
+                        let name = item['details'].name.toLowerCase();
+                        if(name.includes(word)){
 
-                        return(
-                            <TouchableOpacity style={{flexWrap: 'wrap'}} key={idx}>
-                                <SaloonDetials
-                                    imgLink={item['image']}
-                                    name={item['details'].name}
-                                    address={item['details'].address}
-                                    workingHours={item['details'].workingHours}
-                                    rating={parseInt(item['details'].rating)}
-                                />
-                            </TouchableOpacity>
-                        )
+                            return(
+                                <TouchableOpacity style={{flexWrap: 'wrap'}} key={idx}>
+                                    <SaloonDetials
+                                        imgLink={item['image']}
+                                        name={item['details'].name}
+                                        address={item['details'].address}
+                                        workingHours={item['details'].workingHours}
+                                        rating={parseInt(item['details'].rating)}
+                                        contacts={item['details'].contact}
+                                    />
+                                </TouchableOpacity>
+                            )
+                        }
                         // let name = item.name.toLowerCase();
 
                     })
