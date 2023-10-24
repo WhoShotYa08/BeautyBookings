@@ -1,5 +1,6 @@
 import { SafeAreaView, Text, TextInput, View, TouchableOpacity, ImageBackground } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
+import  Entypo from "react-native-vector-icons/Entypo";
 import React, { useState, useEffect } from "react";
 import styles from "./Style";
 import { ScrollView } from "react-native-gesture-handler";
@@ -27,12 +28,22 @@ function SaloonDetials({imgLink, name, address, workingHours, rating, contacts})
 
             <View style={{flex: 2, paddingHorizontal: 20, marginLeft: 15}}>
                 <Text style={{fontWeight: '700', fontSize: 21, flexWrap: 'wrap'}}>{name}</Text>
-                <Text>{address}</Text>
-                <Text style={{color: 'lightgrey'}}>{workingHours}</Text>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+
+                <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 3}}>
+                    <Entypo name="location-pin" size={18} color={'#EA4335'}/>
+                    <Text>{address}</Text>
+                </View>
+
+                <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 3}}>
+                    <Icon name="clockcircleo" size={18}/>
+                    <Text style={{color: 'lightgrey', paddingHorizontal: 5}}>{workingHours}</Text>
+                </View>
+
+                <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 3}}>
                     <Icon name="contacts" size={18}/>
                     <Text style={{paddingHorizontal: 5}}>{contacts}</Text>
                 </View>
+
                 <Stars rating={rating}/>
 
             </View>

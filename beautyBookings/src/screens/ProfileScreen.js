@@ -91,8 +91,11 @@ export default  function ProfileScreen(){
                     <Text style={{paddingHorizontal: 10, fontSize: 22, marginBottom: 8, fontWeight: '700'}}>Favourite Hair Styles</Text>
                     <ScrollView horizontal>
                         {
+
                             faveHairStyles.map((item, index)=>(
-                                <FavHair img={item} id={index}/>
+                                <View key={index}>
+                                    <FavHair img={item} id={index}/>
+                                </View>
                             ))
                         }
 
