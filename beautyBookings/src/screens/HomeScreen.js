@@ -35,12 +35,12 @@ function SaloonDetials({imgLink, name, address, workingHours, rating, contacts})
                 </View>
 
                 <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 3}}>
-                    <Icon name="clockcircleo" size={18}/>
+                    <Entypo name="clock" size={18}/>
                     <Text style={{color: 'lightgrey', paddingHorizontal: 5}}>{workingHours}</Text>
                 </View>
 
                 <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 3}}>
-                    <Icon name="contacts" size={18}/>
+                    <Entypo name="old-phone" size={18}/>
                     <Text style={{paddingHorizontal: 5}}>{contacts}</Text>
                 </View>
 
@@ -58,51 +58,51 @@ function Stars({rating}){
         case 1:
             return(
                 <View style={{flexDirection: 'row'}}>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="staro" size={24}/>
-                    <Icon name="staro" size={24}/>
-                    <Icon name="staro" size={24}/>
-                    <Icon name="staro" size={24}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star-outlined" size={20}/>
+                    <Entypo name="star-outlined" size={20}/>
+                    <Entypo name="star-outlined" size={20}/>
+                    <Entypo name="star-outlined" size={20}/>
                 </View>
             )
         case 2:
             return(
                 <View style={{flexDirection: 'row'}}>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="staro" size={24}/>
-                    <Icon name="staro" size={24}/>
-                    <Icon name="staro" size={24}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star-outlined" size={20}/>
+                    <Entypo name="star-outlined" size={20}/>
+                    <Entypo name="star-outlined" size={20}/>
                 </View>
             )
         case 3:
             return(
                 <View style={{flexDirection: 'row'}}>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="staro" size={24}/>
-                    <Icon name="staro" size={24}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star-outlined" size={20}/>
+                    <Entypo name="star-outlined" size={20}/>
                 </View>
             )
         case 4:
             return(
                 <View style={{flexDirection: 'row'}}>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="staro" size={24}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star-outlined" size={20}/>
                 </View>
             )
         case 5:
             return(
                 <View style={{flexDirection: 'row'}}>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
-                    <Icon name="star" size={24} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
+                    <Entypo name="star" size={20} color={'orange'}/>
                 </View>
             )
         default:
