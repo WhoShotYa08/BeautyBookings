@@ -149,7 +149,7 @@ export default function HomeScreen(){
                     salonList.map((item, idx)=>{
 
                         let name = item['details'].name.toLowerCase();
-                        if(name.includes(word)){
+                        if(name.includes(word.toLocaleLowerCase())){
 
                             return(
                                 <TouchableOpacity style={{flexWrap: 'wrap'}} key={idx}>
@@ -164,8 +164,6 @@ export default function HomeScreen(){
                                 </TouchableOpacity>
                             )
                         }
-                        // let name = item.name.toLowerCase();
-
                     })
                 }
             </ScrollView>
