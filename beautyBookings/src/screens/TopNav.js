@@ -6,7 +6,6 @@ const Tab = createMaterialTopTabNavigator();
 export default function TopNav() {
   return (
     <Tab.Navigator>
-
       <Tab.Screen name="Chat" component={ChatBox} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
