@@ -53,7 +53,7 @@ function SaloonDetials({imgLink, name, address, workingHours, rating, contacts})
 }
 
 
-function Stars({rating}){
+export function Stars({rating}){
     switch (rating){
         case 1:
             return(
@@ -157,7 +157,9 @@ export default function HomeScreen({navigation}){
 
             <ScrollView>
                 {
-                    salonList.map((item, idx)=>{
+                    salonList.map((item, idx)=>
+
+                    {
 
                         let name = item['details'].name.toLowerCase();
                         if(name.includes(word.toLocaleLowerCase())){
