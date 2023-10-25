@@ -8,7 +8,8 @@ import OTP from './src/screens/OTP';
 import TabNavigator from './src/ClientSide/TabNavigator';
 import VerifiedScreen from './src/screens/VerifiedScreen';
 import ChatBox from './src/screens/Chatbox';
-
+import { TopNav } from './src/screens';
+import Salon from './src/screens/Salon';
 
 const Stack = createStackNavigator();
 
@@ -46,12 +47,14 @@ const WelcomeNavigation = () => {
 //This will only be accessed after you have logged in
 const AppNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Home'>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='TopNav'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name='Home' component={HomeScreen}/>
       <Stack.Screen name='Chat' component={ChatBox}/>
       <Stack.Screen name='Verified' component={VerifiedScreen} />
+      <Stack.Screen name='TopNav' component={TopNav} />
+      <Stack.Screen name="Salon" component={Salon}/>
     </Stack.Navigator>
   )
 }

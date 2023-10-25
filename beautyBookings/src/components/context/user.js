@@ -7,6 +7,7 @@ export const UserContext = createContext()
 
 const UserContextWrapper = ({children}) => {
     const [user, setUser] = useState(null);
+    const [hairstyles, setHairstyles] = useState([])
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -18,7 +19,7 @@ const UserContextWrapper = ({children}) => {
         });
     }, [])
 
-    return <UserContext.Provider value={{ user, setUser}}>{children}</UserContext.Provider>;
+    return <UserContext.Provider value={{ user, setUser, hairstyles, setHairstyles}}>{children}</UserContext.Provider>;
 }
 
 export default UserContextWrapper
