@@ -114,7 +114,7 @@ function Stars({rating}){
 
 
 
-export default function HomeScreen(){
+export default function HomeScreen({navigation}){
 
     async function GetDetails(){
         const saloonRef =  query(collection( db, "salonDetails"));
@@ -163,7 +163,13 @@ export default function HomeScreen(){
                         if(name.includes(word.toLocaleLowerCase())){
 
                             return(
-                                <TouchableOpacity style={{flexWrap: 'wrap'}} key={idx}>
+                                <TouchableOpacity 
+                                    style={{flexWrap: 'wrap'}} 
+                                    key={idx}
+                                    onPress={()=>(
+                                        navigation.navigate('Salon', {itm: item})
+                                    )}
+                                >
                                     <SaloonDetials
                                         imgLink={item['image']}
                                         name={item['details'].name}

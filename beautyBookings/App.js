@@ -9,6 +9,7 @@ import TabNavigator from './src/ClientSide/TabNavigator';
 import VerifiedScreen from './src/screens/VerifiedScreen';
 import ChatBox from './src/screens/Chatbox';
 import { TopNav } from './src/screens';
+import Salon from './src/screens/Salon';
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,7 @@ const AppNavigation = () => {
       <Stack.Screen name='Chat' component={ChatBox}/>
       <Stack.Screen name='Verified' component={VerifiedScreen} />
       <Stack.Screen name='TopNav' component={TopNav} />
+      <Stack.Screen name="Salon" component={Salon}/>
     </Stack.Navigator>
   )
 }
