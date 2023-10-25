@@ -1,63 +1,65 @@
-import { View, SafeAreaView, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
+import { View, SafeAreaView, Text, ImageBackground, TouchableOpacity, Image, ToastAndroid } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./Style";
 import { doLogout } from "../components/minddlewares/auth";
-import { collection, where, getDocs, query } from 'firebase/firestore';
+import { collection, where, getDocs, query, doc, deleteDoc } from 'firebase/firestore';
 import { db } from "../components/db/firebase_";
 import { UserContext } from "../components/context/user";
 import Icon from 'react-native-vector-icons/Entypo';
 import { ScrollView } from "react-native-gesture-handler";
 import Btn from "../components/Btn";
+import { getAuth, deleteUser } from "firebase/auth";
 
 
-function User({name, surname, email, cell}){
-    return(
-        <View style={{alignItems: 'center', bottom: "10%"}}>
+function User({ name, surname, email, cell }) {
+    return (
+        <View style={{ alignItems: 'center', bottom: "10%" }}>
             <TouchableOpacity style={{
-                backgroundColor:'white',alignItems: 'center', borderRadius: 100, height: 150, width: 150, justifyContent: 'center'
+                backgroundColor: 'white', alignItems: 'center', borderRadius: 100, height: 150, width: 150, justifyContent: 'center'
             }}>
-                <Icon name="user" size={100}/>
+                <Icon name="user" size={100} />
             </TouchableOpacity>
 
-            <Text style={{fontSize: 32, textAlign: 'center', fontWeight: '700'}}>{name + " " + surname}</Text>
+            <Text style={{ fontSize: 32, textAlign: 'center', fontWeight: '700' }}>{name + " " + surname}</Text>
             <Text>{email}</Text>
-            <Text style={{color: 'lightgrey'}}>{cell}</Text>
+            <Text style={{ color: 'lightgrey' }}>{cell}</Text>
         </View>
     )
 }
 
-function FavHair({img, id}){
-    return(
-        <View style={{marginHorizontal: 8}} key={id}>
+function FavHair({ img, id }) {
+    return (
+        <View style={{ marginHorizontal: 8 }} key={id}>
             <Image
-                style={{height: 125, width:125, borderRadius: 20}}
+                style={{ height: 125, width: 125, borderRadius: 20 }}
                 source={img}
             />
         </View>
     )
 }
 
-export default  function ProfileScreen(){
+export default function ProfileScreen({ navigation }) {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [cell, setCell] = useState('');
 
 
-    async function userData(){
-        const docRef = query(collection( db, "users"), where("email", "==", user["user"].email));
+
+    async function userData() {
+        const docRef = query(collection(db, "users"), where("email", "==", user["user"].email));
         const data = await getDocs(docRef);
 
-        data.forEach((doc)=>{
+        data.forEach((doc) => {
             setName(doc.data().name);
             setSurname(doc.data().surname);
             setEmail(doc.data().email);
             setCell(doc.data().cellNo);
-        })  
+        })
     }
 
 
-    setTimeout(userData,0)
+    setTimeout(userData, 0)
 
     const user = useContext(UserContext);
     const faveHairStyles = [
@@ -67,44 +69,67 @@ export default  function ProfileScreen(){
         require('../images/salon5.jpg'),
     ];
 
-    return(
-            <SafeAreaView style={{flex: 1, alignItems: 'center',}}>
-                <View style={{height: '20%', width:'100%'}}>
-                    <ImageBackground source={require("../images/purpleBackground.jpg") } resizeMode="cover"
-                        style={{flex: 1,}}
-                    >
-                        <TouchableOpacity onPress={doLogout}>
-                            <Text style={{color: 'white', textAlign: 'right', fontSize: 15, padding:10}}>Logout</Text>
-                        </TouchableOpacity>
+    const deleteAccount = () => {
+        currentUser = user["user"].uid;
 
-                    </ImageBackground>
-                </View>
+        const auth = getAuth();
+        const userAcc = auth.currentUser;
+        deleteUser(userAcc).then(() => {
+            deleteDoc(doc(db, "users", currentUser));
+            ToastAndroid.showWithGravity(
+                "Account Deleted",
+                ToastAndroid.LONG,
+                ToastAndroid.TOP
+            );
+            doLogout();
+        }).catch((error) => {
+            ToastAndroid.showWithGravity(
+                error.toString(),
+                ToastAndroid.LONG,
+                ToastAndroid.TOP
+            );
+            console.log(error);
+        });
+    }
 
-                <User 
-                    name={name}
-                    surname={surname}
-                    email={email}
-                    cell={cell}
-                />
-                
-                <ScrollView>
-                    <Text style={{paddingHorizontal: 10, fontSize: 22, marginBottom: 8, fontWeight: '700'}}>Favourite Hair Styles</Text>
-                    <ScrollView horizontal>
-                        {
+    return (
+        <SafeAreaView style={{ flex: 1, alignItems: 'center', }}>
+            <View style={{ height: '20%', width: '100%' }}>
+                <ImageBackground source={require("../images/purpleBackground.jpg")} resizeMode="cover"
+                    style={{ flex: 1, }}
+                >
+                    <TouchableOpacity onPress={doLogout}>
+                        <Text style={{ color: 'white', textAlign: 'right', fontSize: 15, padding: 10 }}>Logout</Text>
+                    </TouchableOpacity>
 
-                            faveHairStyles.map((item, index)=>(
-                                <View key={index}>
-                                    <FavHair img={item} id={index}/>
-                                </View>
-                            ))
-                        }
+                </ImageBackground>
+            </View>
 
-                    </ScrollView>
+            <User
+                name={name}
+                surname={surname}
+                email={email}
+                cell={cell}
+            />
 
+            <ScrollView>
+                <Text style={{ paddingHorizontal: 10, fontSize: 22, marginBottom: 8, fontWeight: '700' }}>Favourite Hair Styles</Text>
+                <ScrollView horizontal>
+                    {
+
+                        faveHairStyles.map((item, index) => (
+                            <View key={index}>
+                                <FavHair img={item} id={index} />
+                            </View>
+                        ))
+                    }
 
                 </ScrollView>
-                <Btn text={"Delete Account"} color={"#d11a2a"}/>
-            </SafeAreaView>
+
+
+            </ScrollView>
+            <Btn text={"Delete Account"} color={"#d11a2a"} func={deleteAccount} />
+        </SafeAreaView>
 
     )
 }
