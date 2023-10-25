@@ -1,125 +1,84 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity, TextInput, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
-import Incoming from '../Chat/Incoming';
-import Outgoing from '../Chat/Outgoing';
-import MCI from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useState, useContext, useLayoutEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { db } from '../components/db/firebase_';
 import { UserContext } from '../components/context/user';
-import {
-  doc,
-  setDoc,
-  onSnapshot,
-  getDocs,
-  collection,
-  query,
-  where,
-  getDoc,
-} from 'firebase/firestore';
+import { collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { GiftedChat, Bubble } from "react-native-gifted-chat";
 
 const ChatBox = ({ navigation }) => {
-  const [msg, setMsg] = useState('');
   const user = useContext(UserContext);
-  const [incomingMsg, setIncomingMsg] = useState([]);
-  const [outgoingMsg, setOutgoingMsg] = useState([]);
   const userId = user['user'].uid;
-  const id = userId;
-  console.log(id);
 
-  const currentDate = new Date();
-  const currentTime = currentDate.toLocaleTimeString();
+  const [messages, setMessages] = useState([]);
 
-  const getUserType = async (id) => {
-    const docRef = doc(db, 'users', userId);
-    const docSnap = await getDoc(docRef);
+  useLayoutEffect(() => {
+    const chatCollection = collection(db, "Chat");
+    const q = query(chatCollection, orderBy("createdAt", "desc"));
 
-    if (docSnap.exists()) {
-      if (id) {
-        await setDoc(doc(db, 'Chat', id), {
-          message: msg,
-          timeSent: currentTime,
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const updatedMessages = [];
+      querySnapshot.forEach((doc) => {
+        updatedMessages.push({
+          _id: doc.id,
+          text: doc.data().text,
+          createdAt: doc.data().createdAt.toDate(),
+          user: {
+            _id: doc.data().user,
+          },
         });
-      }
-    } else {
-      if (id) {
-        await setDoc(doc(db, 'Business Chat', id), {
-          message: msg,
-          timeSent: currentTime,
-        });
-      }
-    }
-  };
-
-  const getData = async () => {
-    if (userId) {
-      const unsub = onSnapshot(doc(db, 'Chat', userId), (doc) => {
-        const data = doc.data();
-        console.log(data);
-        if (data && data.message) {
-          setIncomingMsg((prevMessages) => [
-            ...prevMessages,
-            { message: data.message, timestamp: data.timeSent },
-          ]);
-        }
       });
+      setMessages(updatedMessages);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const onSend = async (newMessages = []) => {
+    const message = newMessages[0];
+    try {
+      const docRef = await addDoc(collection(db, "Chat"), {
+        text: message.text,
+        createdAt: new Date(),
+        user: userId,
+      });
+    } catch (error) {
+      console.error("Error sending message: ", error);
     }
   };
 
-  const getBusinessData = async () => {
-    const q = query(collection(db, 'Business Side'));
+
+  const renderMessage = (props) => (
+    <Bubble
+      {...props}
+      wrapperStyle={{
+        right: {
+          backgroundColor: 'purple',
+        },
+      }}
+    />
+  );
+
+  const clearMessages = async () => {
+    setMessages([]);
+
+    const chatCollection = collection(db, "Chat");
+    const q = query(chatCollection);
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((docs) => {
-      busID = docs.id;
-      if (busID) {
-        const unsub = onSnapshot(doc(db, 'Business Chat', busID), (doc) => {
-          const data = doc.data();
-          if (data && data.message) {
-            setOutgoingMsg((prevMessages) => [
-              ...prevMessages,
-              { message: data.message, timestamp: data.timeSent },
-            ]);
-          }
-        });
-      }
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
     });
   };
 
-  useEffect(() => {
-    getData();
-    getBusinessData();
-  }, []);
-
-  // Merge and sort both incoming and outgoing messages by timestamp
-  const mergedMessages = [...incomingMsg, ...outgoingMsg];
-  mergedMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
   return (
-    
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}>
-      <View style={{ justifyContent: 'flex-start' }}>
-        {mergedMessages.map((message, index) => {
-          if (incomingMsg.includes(message)) {
-            return <Incoming key={index} message={message.message} />;
-          } else {
-            return <Outgoing key={index} outgoingMsg={message.message} />;
-          }
-        })}
-      </View>
-
-      <View style={{ flexDirection: 'row' }}>
-        <TextInput
-          placeholder=" Type a message"
-          onChangeText={(msg) => setMsg(msg)}
-          style={chatStyles.input}
-        />
-        <TouchableOpacity style={chatStyles.send} onPress={() => getUserType(id)}>
-          <MCI name="send" size={30} />
-        </TouchableOpacity>
-      </View>
+    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
+      <GiftedChat
+        messages={messages}
+        onSend={(newMessages) => onSend(newMessages)}
+        user={{
+          _id: userId,
+        }}
+        renderMessage={renderMessage}
+      />
     </View>
   );
 };
@@ -133,8 +92,5 @@ const chatStyles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
     height: 50,
-  },
-  send: {
-    alignSelf: 'center',
   },
 });
