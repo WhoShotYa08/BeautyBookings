@@ -8,6 +8,8 @@ import { addUser, getUser } from "./minddlewares/user";
 import { FirestoreError } from "firebase/firestore";
 import {sendEmail} from "./db/email";
 import Btn from "./Btn";
+import { loginWithCredentials, getUserDetails } from "./db/firebase_";
+
 
 
 // export const generateOtp = () => {
@@ -135,9 +137,22 @@ const Login = () => {
     const [password, setPassword] = useState("");
 
 
-    const handleClientSide = () =>{
-        navigation.navigate('TabNav')
-    }
+    const handleClientSide = async () => {
+        
+        const user = await loginWithCredentials(email, password);
+      
+        if (user instanceof Error) {
+          ToastAndroid.showWithGravity(user.message, ToastAndroid.SHORT, ToastAndroid.TOP);
+        } else {
+          const userDetails = await getUserDetails(user.id);
+          if (userDetails) {
+            navigation.navigate('TabNav');
+          } else {
+            ToastAndroid.showWithGravity("User Credentials Not Found.", ToastAndroid.SHORT, ToastAndroid.TOP);
+          }
+        }
+      }
+
     const signInHandle = async () => {
 
         //Form validation name
@@ -154,6 +169,7 @@ const Login = () => {
             return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
         }
     }
+
     const [show, setShow] = useState(true);
     const icon = show? 'eye' : 'eye-slash';
 

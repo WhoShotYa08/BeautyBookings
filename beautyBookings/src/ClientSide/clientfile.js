@@ -1,8 +1,7 @@
-import BusinessAdd from "./Business(Add)";
-import BusinessExisting from "./Business(Existing)";
-import BusinessRemove from "./Business(Remove)";
+import Screen2 from "./Business(Add)";
+import Screen1 from "./Business(Existing)";
 import TabNavigator from "./TabNavigator";
 
 export {
-    BusinessAdd, BusinessExisting, BusinessRemove, TabNavigator
+    Screen1, Screen2, TabNavigator
 }
