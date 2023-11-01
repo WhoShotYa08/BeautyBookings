@@ -1,5 +1,6 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { HomeScreen, ProfileScreen } from './index';
+import ProfileScreen from './ProfileScreen';
+import HomeScreen from "./HomeScreen"
 
 const Tab = createMaterialTopTabNavigator();
 

@@ -4,11 +4,13 @@ import { db } from "../components/db/firebase_";
 import { UserContext } from "../components/context/user";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { collection, query, onSnapshot, getDocs, doc } from "firebase/firestore";
+import { HeaderContext } from "../components/context/header";
 
 const Screen1 = ({ navigation }) => {
     const [users, setUsers] = useState(null);
 
     const { user } = useContext(UserContext);
+    const {setName} = useContext(HeaderContext)
     const { uid } = user
 
     const businessId = uid
@@ -39,7 +41,9 @@ const Screen1 = ({ navigation }) => {
             renderItem={({ item }) => {
                 return (
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("Chat", item.id)}
+                        onPress={() =>{
+                            setName(item.name.toUpperCase())
+                            navigation.navigate("Chat", item.id)}}
                         style={{
                             padding: 10,
                             backgroundColor: "purple",

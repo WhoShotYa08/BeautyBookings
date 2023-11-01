@@ -11,6 +11,7 @@ import ChatBox from './src/screens/Chatbox';
 import { TopNav } from './src/screens';
 import Salon from './src/screens/Salon';
 import Appointment from './src/screens/Appointments';
+import { HeaderContext } from './src/components/context/header';
 
 
 const Stack = createStackNavigator();
@@ -29,7 +30,7 @@ export default function App() {
 const RootNavigator = () => {
   const { user } = useContext(UserContext);
 
-  return !user ? <WelcomeNavigation /> : user.userType ? <AppNavigation /> : <BusinessSide /> 
+  return !user ? <WelcomeNavigation /> : user.userType ? <AppNavigation /> : <BusinessSide />
 }
 
 const WelcomeNavigation = () => {
@@ -45,12 +46,18 @@ const WelcomeNavigation = () => {
 
 //This will only be accessed after you have logged in
 const AppNavigation = () => {
+  const { name } = useContext(HeaderContext)
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='TopNav'>
       <Stack.Screen name='OTP' component={OTP} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name='Home' component={HomeScreen} />
-      <Stack.Screen name='Chat' component={ChatBox} />
+      <Stack.Screen name='Chat'
+        options={{
+          title: name,
+          headerShown:true
+        }}
+        component={ChatBox} />
       <Stack.Screen name='Verified' component={VerifiedScreen} />
       <Stack.Screen name='TopNav' component={TopNav} />
       <Stack.Screen name="Salon" component={Salon} />
@@ -60,10 +67,15 @@ const AppNavigation = () => {
 }
 
 const BusinessSide = () => {
+  const { name } = useContext(HeaderContext)
   return (
     <Stack.Navigator>
       <Stack.Screen name="TabNav" component={TabNavigator} />
-      <Stack.Screen name='Chat' component={ChatBox} />
+      <Stack.Screen name='Chat'
+        options={{
+          title: name
+        }}
+        component={ChatBox} />
     </Stack.Navigator>
   )
 }

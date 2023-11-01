@@ -2,6 +2,7 @@ import { auth, db } from "../db/firebase_";
 import { createContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import HeaderContextWrapper from "./header";
 // Import package from node modules
 
 
@@ -36,7 +37,7 @@ const UserContextWrapper = ({ children }) => {
         });
     }, [])
 
-    return <UserContext.Provider value={{ user, setUser, hairstyles, setHairstyles }}>{children}</UserContext.Provider>;
+    return <UserContext.Provider value={{ user, setUser, hairstyles, setHairstyles }}><HeaderContextWrapper>{children}</HeaderContextWrapper></UserContext.Provider>;
 }
 
 export default UserContextWrapper
