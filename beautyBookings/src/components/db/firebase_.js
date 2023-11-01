@@ -1,6 +1,8 @@
-import { getAuth } from "firebase/auth"
+// import { getAuth } from "firebase/auth"
 import { initializeApp } from "firebase/app";
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { getDoc, getFirestore, doc, updateDoc } from "firebase/firestore"
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const firebaseConfig = {
@@ -15,33 +17,36 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
-export const auth = getAuth(app);
+export const auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
 
 export const updateBusinessDetails = async (uid, updatedDetails) => {
     const businessRef = doc(db, 'Business Side', uid);
-  
-    try {
-      await updateDoc(businessRef, updatedDetails);
-      console.log('Document successfully updated');
-    } catch (error) {
-      console.error('Error updating document: ', error);
-    }}
 
-export const loginWithCredentials = async (pass, pin ) => {
-        try{
-            const userCredential = await signInWithEmailAndPassword(auth, pass, pin);
-            return userCredential.user;
-        } catch (error){
-            return error;
-        }
-    };
-    
-export const getUserDetails = async(uid) => {
-        const userDocRef = doc(db, "Business Side", uid);
-        const userDocSnapshot = await getDoc(userDocRef);
-        if (userDocSnapshot.exists()) {
-            return userDocSnapshot.data();
-        } else {
-            return null
-        }
+    try {
+        await updateDoc(businessRef, updatedDetails);
+        console.log('Document successfully updated');
+    } catch (error) {
+        console.error('Error updating document: ', error);
     }
+}
+
+export const loginWithCredentials = async (pass, pin) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, pass, pin);
+        return userCredential.user;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getUserDetails = async (uid) => {
+    const userDocRef = doc(db, "Business Side", uid);
+    const userDocSnapshot = await getDoc(userDocRef);
+    if (userDocSnapshot.exists()) {
+        return userDocSnapshot.data();
+    } else {
+        return null
+    }
+}

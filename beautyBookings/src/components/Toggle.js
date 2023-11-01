@@ -159,6 +159,8 @@ const Login = () => {
         
         const results = await doLogIn(email, password);
 
+       
+//  console.log(results);
         if (results instanceof FirebaseError) {
             return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
         }

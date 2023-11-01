@@ -10,7 +10,7 @@ import { Stars } from './HomeScreen';
 import Btn from '../components/Btn';
 import Styles from './Style';
 
-export default function SalonLocation({navigation, route}) {
+export default function SalonLocation({navigation, route, navigation}) {
 
     // ref
     const bottomSheetRef = useRef<BottomSheet>(null);
