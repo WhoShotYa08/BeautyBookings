@@ -38,11 +38,8 @@
     "react-native-gifted-chat": "^2.4.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.8.3",
-<<<<<<< HEAD
     "react-native-maps": "^1.8.0",
-=======
     "react-native-modal-datetime-picker": "^17.1.0",
->>>>>>> ea61fb351da33838400cdb9e03925f33165b09d7
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-pager-view": "6.2.0",
     "react-native-reanimated": "~3.3.0",
