@@ -1,96 +1,73 @@
-import React, { useState, useContext, useLayoutEffect } from 'react';
+import React, { useState, useContext,  useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { db } from '../components/db/firebase_';
 import { UserContext } from '../components/context/user';
-import { collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { collection, query,  onSnapshot, orderBy, setDoc, doc, updateDoc,  arrayUnion } from "firebase/firestore";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
 
-const ChatBox = ({ navigation }) => {
+const ChatBox = ({  route }) => {
+
   const user = useContext(UserContext);
-  const userId = user['user'].uid;
+
+  let user_id = user['user'].uid;
+  let business_id = route?.params;
+
+  let userId = ""
+  let businessId = "";
+
+  if (user.user.userType) {
+    userId = user_id;
+    businessId = business_id
+  } else {
+    userId = business_id
+    businessId = user_id
+  }
 
   const [messages, setMessages] = useState([]);
 
-  useLayoutEffect(() => {
-    const chatCollection = collection(db, "Chat");
-    const q = query(chatCollection, orderBy("createdAt", "desc"));
-
+  useEffect(() => {
+    const q = query(collection(db, `/chat/${businessId}/${userId}`), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const updatedMessages = [];
+      const messages = [];
       querySnapshot.forEach((doc) => {
-        updatedMessages.push({
-          _id: doc.id,
-          text: doc.data().text,
-          createdAt: doc.data().createdAt.toDate(),
-          user: {
-            _id: doc.data().user,
-          },
-        });
+        messages.push({ text: doc.data().message, _id: doc.id, user: { _id: doc.data().from }, createdAt: doc.data().createdAt });
       });
-      setMessages(updatedMessages);
+      setMessages(messages);
     });
 
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribe()
 
-  const onSend = async (newMessages = []) => {
-    const message = newMessages[0];
-    try {
-      const docRef = await addDoc(collection(db, "Chat"), {
-        text: message.text,
-        createdAt: new Date(),
-        user: userId,
+  }, [])
+
+  const sendMessage = async (message) => {
+    // Add a new document in collection "cities"
+    await setDoc(doc(db, `/chat/${businessId}/${userId}`, message[message.length - 1]._id), {
+      createdAt: Date(message[message.length - 1].createdAt),
+      message: message[message.length - 1].text,
+      from: message[message.length - 1].user._id
+    });
+
+    if (user.user.userType) {
+      const salonRef = doc(db, `/salonDetails/${businessId}`);
+      await updateDoc(salonRef, {
+        messages: arrayUnion(user_id)
       });
-    } catch (error) {
-      console.error("Error sending message: ", error);
     }
-  };
-
-
-  const renderMessage = (props) => (
-    <Bubble
-      {...props}
-      wrapperStyle={{
-        right: {
-          backgroundColor: 'purple',
-        },
-      }}
-    />
-  );
-
-  const clearMessages = async () => {
-    setMessages([]);
-
-    const chatCollection = collection(db, "Chat");
-    const q = query(chatCollection);
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
-      await deleteDoc(doc.ref);
-    });
-  };
+  }
 
   return (
     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
       <GiftedChat
         messages={messages}
-        onSend={(newMessages) => onSend(newMessages)}
         user={{
-          _id: userId,
+          _id: user_id,
         }}
-        renderMessage={renderMessage}
+        showAvatarForEveryMessage={false}
+        renderAvatar={null}
+        onSend={sendMessage}
       />
     </View>
   );
 };
 
 export default ChatBox;
-
-const chatStyles = StyleSheet.create({
-  input: {
-    width: '85%',
-    borderRadius: 12,
-    borderColor: 'grey',
-    borderWidth: 1,
-    height: 50,
-  },
-});

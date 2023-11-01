@@ -1,53 +1,71 @@
-import React, { useEffect, useState } from "react";
-import {View, Text, Image, StyleSheet, Button } from 'react-native';
-import { getUserDetails } from "../components/db/firebase_";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, Image, StyleSheet, Button } from 'react-native';
+import { db } from "../components/db/firebase_";
+import { UserContext } from "../components/context/user";
+import { doLogout } from "../components/minddlewares/auth";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import {  doc,  onSnapshot } from "firebase/firestore";
 
-const Screen1 = ({route}) =>{
-    const { uid } = route.params;
-    const [businessdetails, setbusinessdetails] = useState(null);
-    useEffect(() => {
-        const fetchUserDetails = async() =>{
-            const data = await getUserDetails(uid);
-            setbusinessdetails(data);
-        };
-        fetchUserDetails();
-    }, [uid]);
+const Screen1 = () => {
+  const { user } = useContext(UserContext);
+  const { uid } = user
 
-     return(
-      <View style={styles.container}>
-      {userDetails ? (
+  const [datails, setDetails] = useState()
+
+  useEffect(() => {
+      const unsub = onSnapshot(doc(db, `/salonDetails/${uid}`), async (doc) => {         
+          setDetails({...doc.data(), id: doc.id})
+      });
+      return () => unsub()
+  }, [])
+
+
+  return (
+    <View style={styles.container}>
+      {datails ? (
         <>
-        <Text>Business image</Text>
           <Image
-            source={{ uri: userDetails.image }} 
+            source={{ uri: datails?.image }}
             style={styles.image}
           />
-          <Text>Business Name {userDetails.BusinessName}</Text>
-          <Text>Business Address{userDetails.Address}</Text>
-          <Text>Business Owner {userDetails.OwnerName}</Text>
-          <Text>Business Number {userDetails.cellphonenumber}</Text>
-          <Text>Business Email {userDetails.Email}</Text>
-          <Button>Update</Button>
+          <Text style={{
+            fontSize: 22
+          }}>{datails?.details.name}</Text>
+          <Text></Text>
+          <Text>Business Address{datails?.details.address}</Text>
+            <Text></Text>
+          <Text>Business Owner {datails?.details.contact}</Text>
+            <Text></Text>
+          <Text>Business Number {datails?.details.contact}</Text>
+            <Text></Text>
+          <Button title="Update"/>
         </>
       ) : (
-        <Text>Loading user details...</Text>
+        <>
+          <Text>Loading user details...</Text>
+        </>
       )}
+          <TouchableOpacity onPress={() => {
+            doLogout()
+          }}>
+            <Text style={{ color: 'red', textAlign: 'right', fontSize: 15, padding: 10 }}>Logout</Text>
+          </TouchableOpacity>
     </View>
-     )
+  )
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    image: {
-      width: 200,
-      height: 200,
-      borderRadius: 100,
-      marginBottom: 20,
-    },
-  });
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    marginBottom: 20,
+  },
+});
 
 export default Screen1;

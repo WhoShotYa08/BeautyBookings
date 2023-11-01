@@ -4,7 +4,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import Btn from "../components/Btn";
 import { Stars } from "./HomeScreen";
 import { ScrollView } from "react-native-gesture-handler";
-export default function Salon({route}){
+export default function Salon({route, navigation}){
 
 
     // ref
@@ -16,9 +16,10 @@ export default function Salon({route}){
     const item = route?.params?.itm;
     const details = item['details'];
     const reviews = item['reviews'];
+
     return(
         <SafeAreaView style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
-            <Text>Salon screen</Text>
+            <Text>Salon screen yyy</Text>
             <Text>{item['details'].name}</Text>
 
             <BottomSheet
@@ -53,6 +54,8 @@ export default function Salon({route}){
                         })
                     }
                 </ScrollView> 
+                <Btn text={"Chat to business"} func={() => navigation.navigate("Chat", item.id )} />
+                <Btn text={"Book Appointment"} func={() => navigation.navigate("Book Appointment")} />
                 <Text>Will I ever be good enough</Text>                      
 
             </BottomSheet>
