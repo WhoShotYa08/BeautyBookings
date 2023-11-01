@@ -1,12 +1,12 @@
 import { SafeAreaView, Text, TextInput, View, TouchableOpacity, ImageBackground } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import  Entypo from "react-native-vector-icons/Entypo";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import styles from "./Style";
 import { ScrollView } from "react-native-gesture-handler";
 import { collection, getDocs, query,} from 'firebase/firestore';
 import { db } from "../components/db/firebase_";
-
+import BottomSheet from "@gorhom/bottom-sheet";
 
 function SaloonDetials({imgLink, name, address, workingHours, rating, contacts}){
     const [liked, setLiked] = useState(false)
@@ -15,7 +15,7 @@ function SaloonDetials({imgLink, name, address, workingHours, rating, contacts})
     const heartColor = liked? 'red': '#fff';
 
     return(
-        <View style={{flexDirection: 'row', borderBottomWidth: 1, padding: 10, width: '100%', flexWrap: 'wrap', alignItems:'center'}}>
+        <View style={{flexDirection: 'row', borderBottomWidth: 1, padding: 10, width: '100%', flexWrap: 'wrap', alignItems:'center', }}>
             <View style={{flex: 1}}>
                 <ImageBackground source={{uri:imgLink}} 
                     style={{height: 125, width: 125, marginRight: 10, alignItems: 'flex-end', justifyContent:'flex-end', padding: 7}}
@@ -116,6 +116,13 @@ export function Stars({rating}){
 
 export default function HomeScreen({navigation}){
 
+    // ref
+    const bottomSheetRef = useRef<BottomSheet>(null);
+    // variables
+    const snapPoints = useMemo(() => ["5%","75%"], []);
+    const [salonList, setSalonList] = useState([]);
+    const [isVisible, setIsVisible] =  useState(false);
+    
     async function GetDetails(){
         const saloonRef =  query(collection( db, "salonDetails"));
         const saloonSnap = await getDocs(saloonRef);
@@ -124,12 +131,11 @@ export default function HomeScreen({navigation}){
             setSalonList((prev)=>[...prev, doc.data()]);
         })
     }
-    const [salonList, setSalonList] = useState([]);
 
     useEffect(()=>{GetDetails()},[])
     const [word, setWord]= useState('');
     return(
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
             <View 
                 style={{
                     padding: 9, 
@@ -153,7 +159,7 @@ export default function HomeScreen({navigation}){
                 />
             </View>
 
-            <Text style={{fontSize: 27, fontWeight:'600', textAlign: 'center'}}>Registered Businesses</Text>
+            <Text style={{fontSize: 27, fontWeight:'600', paddingHorizontal: 10, backgroundColor: 'black', color:"white"}}>Registrated Businesses</Text>
 
             <ScrollView>
                 {

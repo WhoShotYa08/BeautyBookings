@@ -1,31 +1,70 @@
-import { SafeAreaView, View, Text, StyleSheet, Image, ImageBackground } from "react-native";
+// Integration of Google map in React Native using react-native-maps
+// https://aboutreact.com/react-native-map-example/
+// Import React
+import React, { useCallback, useMemo, useRef, useContext } from 'react';
+// Import required components
+import {SafeAreaView, StyleSheet, View, Text, ImageBackground, ScrollView, Image, TouchableOpacity} from 'react-native';
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useCallback, useMemo, useRef } from 'react';
-import Btn from "../components/Btn";
-import { Stars } from "./HomeScreen";
-import { ScrollView } from "react-native-gesture-handler";
-export default function Salon({route}){
+import MapView, {Marker} from 'react-native-maps';
+import { Stars } from './HomeScreen';
+import Btn from '../components/Btn';
+import Styles from './Style';
 
+export default function SalonLocation({navigation, route}) {
 
     // ref
     const bottomSheetRef = useRef<BottomSheet>(null);
-
     // variables
-    const snapPoints = useMemo(() => ["5%", '25%', '50%', "75%"], []);
-
+    const snapPoints = useMemo(() => ["5%","25%","50%","75%"], []);
     const item = route?.params?.itm;
-    const details = item['details'];
-    const reviews = item['reviews'];
-    return(
-        <SafeAreaView style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
-            <Text>Salon screen</Text>
-            <Text>{item['details'].name}</Text>
 
-            <BottomSheet
+    const btn= {
+        flex: 1,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderRadius: 20,
+        textAlign: 'center',
+        backgroundColor: '#D1A4F3',
+        margin: 15,
+    }
+
+    const text = {
+        fontSize: 14,
+        textAlign: 'center', 
+        color: 'white'
+    }
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <MapView
+          style={styles.mapStyle}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          customMapStyle={mapStyle}>
+          <Marker
+            draggable
+            coordinate={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+            }}
+            onDragEnd={
+              (e) => alert(JSON.stringify(e.nativeEvent.coordinate))
+            }
+            title={'Test Marker'}
+            description={'This is a description of the marker'}
+          />
+        </MapView>
+      </View>
+
+      <BottomSheet
                 snapPoints={snapPoints}
                 // backgroundStyle={{backgroundColor:'#7434A4'}}
             >
-                <View style={[styles.contentContainer,{padding: 10,}]}>
+                <View style={[styles.contentContainer,{padding: 10, alignItems: 'center'}]}>
                     <Text style={{fontSize: 24, fontWeight: '900', }}>{item['details'].name}</Text>
                     <Stars rating={parseInt(item['details'].rating)}/>
                 </View>
@@ -33,43 +72,143 @@ export default function Salon({route}){
                 <View style={{width: '100%', height: "40%"}}>
                     <ImageBackground
                         source={{uri: item['image']}}
-                        style={{flex: 1, backgroundColor: 'black', opacity: .3}}
+                        style={{flex: 1, backgroundColor: 'black', opacity: .9}}
                         resizeMode='cover'
                     >
 
-
                     </ImageBackground>
                 </View>
-                <ScrollView horizontal style={{flex: 1, bottom: "21%"}}>
+                <Text>{"Provides: "+ item['details'].services}</Text>
+
+                <Text style={{fontSize: 24, fontWeight: '900', }}>Reviews</Text>
+                <ScrollView horizontal style={{flex: 1}}>
                     {
-                        Object.values(item['xtraPics']).map((element, idx)=>{
+                        Object.values(item['reviews']).map((element, idx)=>{
                             return(
-                                <View style={{}} key={idx}>
-                                    <Image
-                                        source={{uri: element}}
-                                        style={{height: 125, width: 125, borderRadius: 15, margin: 5}}
-                                    />
-                                </View>)       
+                                <View>
+                                    <Text>{element.name}</Text>
+                                    <Text>{element.description}</Text>
+                                    <Text>{element.rating}</Text>
+                                </View>
+                            )       
                         })
                     }
                 </ScrollView> 
-                <Text>Will I ever be good enough</Text>                      
+                
+                <View style={{flexDirection: 'row',}}>
+                    <TouchableOpacity style={btn}>
+                        <Text style={text}>Message</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={btn} onPress={()=>navigation.navigate("Book Appointment")}>
+                        <Text style={text}>Book</Text>
+                    </TouchableOpacity>
+
+                  
+                </View>
 
             </BottomSheet>
+    </SafeAreaView>
+  );
+};
 
-        </SafeAreaView>
-    )
-}
+const mapStyle = [
+  {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+  {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+  {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+  {
+    featureType: 'administrative.locality',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#d59563'}],
+  },
+  {
+    featureType: 'poi',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#d59563'}],
+  },
+  {
+    featureType: 'poi.park',
+    elementType: 'geometry',
+    stylers: [{color: '#263c3f'}],
+  },
+  {
+    featureType: 'poi.park',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#6b9a76'}],
+  },
+  {
+    featureType: 'road',
+    elementType: 'geometry',
+    stylers: [{color: '#38414e'}],
+  },
+  {
+    featureType: 'road',
+    elementType: 'geometry.stroke',
+    stylers: [{color: '#212a37'}],
+  },
+  {
+    featureType: 'road',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#9ca5b3'}],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry',
+    stylers: [{color: '#746855'}],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry.stroke',
+    stylers: [{color: '#1f2835'}],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#f3d19c'}],
+  },
+  {
+    featureType: 'transit',
+    elementType: 'geometry',
+    stylers: [{color: '#2f3948'}],
+  },
+  {
+    featureType: 'transit.station',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#d59563'}],
+  },
+  {
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [{color: '#17263c'}],
+  },
+  {
+    featureType: 'water',
+    elementType: 'labels.text.fill',
+    stylers: [{color: '#515c6d'}],
+  },
+  {
+    featureType: 'water',
+    elementType: 'labels.text.stroke',
+    stylers: [{color: '#17263c'}],
+  },
+];
+
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 24,
-      width: '100%',
-      backgroundColor: 'grey',
-    },
-    contentContainer: {
-
-      alignItems: 'center',
-    },
-  });
+  container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  mapStyle: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+});
