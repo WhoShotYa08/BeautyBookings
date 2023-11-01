@@ -1,10 +1,11 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../db/firebase_";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const doLogIn = async (email = '', password = '') => {
     try {
         return await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -21,10 +22,12 @@ const doSignUp = async (email = '', password = '') => {
 
 const doLogout = async () => {
     try {
-        return await signOut(auth);
+        await signOut(auth);
+        return
     } catch (error) {
         return error
     }
 }
+
 
 export { doLogIn, doSignUp, doLogout }
