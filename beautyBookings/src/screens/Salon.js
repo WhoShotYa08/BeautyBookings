@@ -12,13 +12,23 @@ import Styles from './Style';
 
 export default function SalonLocation({navigation, route}) {
 
-
-    // ref
-    const bottomSheetRef = useRef<BottomSheet>(null);
-    // variables
+    const mapRef = useRef(null);
     const snapPoints = useMemo(() => ["5%","25%","50%","75%"], []);
     const item = route?.params?.itm;
 
+    const techno = {
+      latitude: 35.6762,  
+      longitude: 139.6503,  
+      latitudeDelta: 0.01,  
+      longitudeDelta: 0.01,
+    }
+
+    const gotoTechno = () =>{
+      mapRef.current.animateToRegion(techno, 3000)
+    }
+
+    setTimeout(gotoTechno, 2000)
+2
     const btn= {
         flex: 1,
         paddingHorizontal: 15,
@@ -38,6 +48,7 @@ export default function SalonLocation({navigation, route}) {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <MapView
+          ref={mapRef}
           style={styles.mapStyle}
           initialRegion={{
             latitude: 37.78825,
@@ -62,53 +73,70 @@ export default function SalonLocation({navigation, route}) {
       </View>
 
       <BottomSheet
-                snapPoints={snapPoints}
-                // backgroundStyle={{backgroundColor:'#7434A4'}}
+        snapPoints={snapPoints}
+        style={{padding: 10, borderRadius: 10}}
+        // backgroundStyle={{backgroundColor:'#7434A4'}}
+        enablePanDownToClose={true}
+      >
+        <View style={[styles.contentContainer,{padding: 10, alignItems: 'center'}]}>
+            <Text style={{fontSize: 24, fontWeight: '900', }}>{item['details'].name}</Text>
+            <Stars rating={parseInt(item['details'].rating)}/>
+        </View>
+
+        <View style={{width: '100%', height: "40%"}}>
+            <ImageBackground
+                source={{uri: item['image']}}
+                style={{flex: 1, backgroundColor: 'black', opacity: .9}}
+                resizeMode='cover'
             >
-                <View style={[styles.contentContainer,{padding: 10, alignItems: 'center'}]}>
-                    <Text style={{fontSize: 24, fontWeight: '900', }}>{item['details'].name}</Text>
-                    <Stars rating={parseInt(item['details'].rating)}/>
+
+            </ImageBackground>
+        </View>
+
+        <Text>{"Provides: "+ item['details'].services}</Text>
+        <Text style={{fontSize: 24, fontWeight: '900', }}>Reviews</Text>
+
+        <ScrollView horizontal style={{flex: 1, paddingVertical: 5}}>
+          {
+            Object.values(item['reviews']).map((element, idx)=>{
+              return(
+                <View key={idx}
+                  style={{
+                    borderWidth: 1, 
+                    borderRadius: 10, 
+                    marginHorizontal: 10, 
+                    padding: 15, width: 225,}}
+                >
+                  <View style={[Styles.shadow, {flexDirection: 'row', }]}>
+                    <View style={{borderRadius: 15, height: 27, width: 27, backgroundColor: 'black', alignItems:'center', justifyContent: 'center',marginHorizontal: 5, borderWidth: 1}}>
+                      <Text style={{fontSize: 16, fontWeight: '800', color : 'white', textAlign: 'center', }}>
+                          {element.name[0]}
+                      </Text>
+                    </View>
+                    <Text>{element.name}</Text>
+                  </View>
+          
+                  <View>
+                    <Text>{element.description}</Text>
+                    <Stars rating={parseInt(element.rating)}/> 
+                  </View>
+                          
                 </View>
+              )             
+            })
+          }
+        </ScrollView> 
+          
+        <View style={{flexDirection: 'row',}}>
+            <TouchableOpacity style={btn} onPress={()=>navigation.navigate("Chat", item.id)}>
+                <Text style={text}>Message</Text>
+            </TouchableOpacity>
 
-                <View style={{width: '100%', height: "40%"}}>
-                    <ImageBackground
-                        source={{uri: item['image']}}
-                        style={{flex: 1, backgroundColor: 'black', opacity: .9}}
-                        resizeMode='cover'
-                    >
-
-                    </ImageBackground>
-                </View>
-                <Text>{"Provides: "+ item['details'].services}</Text>
-
-                <Text style={{fontSize: 24, fontWeight: '900', }}>Reviews</Text>
-                <ScrollView horizontal style={{flex: 1}}>
-                    {
-                        Object.values(item['reviews']).map((element, idx)=>{
-                            return(
-                                <View>
-                                    <Text>{element.name}</Text>
-                                    <Text>{element.description}</Text>
-                                    <Text>{element.rating}</Text>
-                                </View>
-                            )       
-                        })
-                    }
-                </ScrollView> 
-                
-                <View style={{flexDirection: 'row',}}>
-                    <TouchableOpacity style={btn} onPress={()=>navigation.navigate("Chat", item.id)}>
-                        <Text style={text}>Message</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={btn} onPress={()=>navigation.navigate("Book Appointment" , {busId: id})}>
-                        <Text style={text}>Book</Text>
-                    </TouchableOpacity>
-
-                  
-                </View>
-
-            </BottomSheet>
+            <TouchableOpacity style={btn} onPress={()=>{navigation.navigate("Book Appointment" , {busId: item.id})}}>
+                <Text style={text}>Book</Text>
+            </TouchableOpacity>
+        </View>
+      </BottomSheet>
     </SafeAreaView>
   );
 };
