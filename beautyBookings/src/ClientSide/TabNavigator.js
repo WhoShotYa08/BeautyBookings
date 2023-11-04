@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Screen1 from './Business(Existing)';
 import Screen2 from './Business(Add)';
 import Screen3 from './Business(chat)';
+import Notification from "../Notifications/PushNotifications"
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -40,6 +41,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Current Business Profile" component={Screen1} />
       <Tab.Screen name="Update Business Profile" component={Screen2} />
       <Tab.Screen name="chats" component={Screen3} />
+      <Tab.Screen name="Booking" component={Notification} options={{ headerShown: false}} />
     </Tab.Navigator>
   )
 

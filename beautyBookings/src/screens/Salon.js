@@ -16,6 +16,7 @@ export default function Salon({route, navigation}){
     const item = route?.params?.itm;
     const details = item['details'];
     const reviews = item['reviews'];
+    const id = item['id'];
 
     return(
         <SafeAreaView style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
@@ -55,7 +56,7 @@ export default function Salon({route, navigation}){
                     }
                 </ScrollView> 
                 <Btn text={"Chat to business"} func={() => navigation.navigate("Chat", item.id )} />
-                <Btn text={"Book Appointment"} func={() => navigation.navigate("Book Appointment")} />
+                <Btn text={"Book Appointment"} func={() => navigation.navigate("Book Appointment", {busId: id})} />
                 <Text>Will I ever be good enough</Text>                      
 
             </BottomSheet>

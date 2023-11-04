@@ -1,0 +1,24 @@
+[
+    {
+    "businessId": "RwO5BxTN4Cf7e9MKa8U9b5gHzAm2",
+    "cell": "0623661042",
+    "date_": {
+        "nanoseconds": 368000000,
+        "seconds": 1698872591
+    },
+    "email": "mabukwa25@gmail.com",
+    "name": "Brian",
+    "surname": "Mabukwa"
+},
+{
+    "businessId": "RwO5BxTN4Cf7e9MKa8U9b5gHzAm2",
+    "cell": "0623661042",
+    "date_": {
+        "nanoseconds": 0,
+        "seconds": 1700208900
+    },
+    "email": "mabukwa25@gmail.com",
+    "name": "Brian",
+    "surname": "Mabukwa"
+}
+]
