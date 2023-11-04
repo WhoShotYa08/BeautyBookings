@@ -10,7 +10,8 @@ import { Stars } from './HomeScreen';
 import Btn from '../components/Btn';
 import Styles from './Style';
 
-export default function SalonLocation({navigation, route, navigation}) {
+export default function SalonLocation({navigation, route}) {
+
 
     // ref
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -96,11 +97,11 @@ export default function SalonLocation({navigation, route, navigation}) {
                 </ScrollView> 
                 
                 <View style={{flexDirection: 'row',}}>
-                    <TouchableOpacity style={btn}>
+                    <TouchableOpacity style={btn} onPress={()=>navigation.navigate("Chat", item.id)}>
                         <Text style={text}>Message</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={btn} onPress={()=>navigation.navigate("Book Appointment")}>
+                    <TouchableOpacity style={btn} onPress={()=>navigation.navigate("Book Appointment" , {busId: id})}>
                         <Text style={text}>Book</Text>
                     </TouchableOpacity>
 
