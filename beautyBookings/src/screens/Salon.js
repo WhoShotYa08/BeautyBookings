@@ -6,7 +6,7 @@ import React, { useCallback, useMemo, useRef, useContext, useEffect } from 'reac
 import {SafeAreaView, StyleSheet, View, Text, ImageBackground, ScrollView, Image, TouchableOpacity} from 'react-native';
 import BottomSheet from "@gorhom/bottom-sheet";
 import MapView, {Marker} from 'react-native-maps';
-import { Stars } from './HomeScreen';
+import Stars from '../components/Stars';
 import Btn from '../components/Btn';
 import Styles from './Style';
 
@@ -30,9 +30,6 @@ export default function SalonLocation({navigation, route}) {
 
     useEffect(()=>{setTimeout(gotoTechno, 2000)},[])
 
-
-    
-2
     const btn= {
         flex: 1,
         paddingHorizontal: 15,
