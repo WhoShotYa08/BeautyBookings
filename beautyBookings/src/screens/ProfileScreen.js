@@ -92,6 +92,11 @@ export default function ProfileScreen({ navigation }) {
         });
     }
 
+    const {hairstyles} = useContext(UserContext);
+    const list = Object.values(hairstyles)
+    
+    // console.log(hairstyles)
+    // console.log(list)
     return (
         <SafeAreaView style={{ flex: 1, alignItems: 'center', }}>
             <View style={{ height: '20%', width: '100%' }}>
@@ -112,16 +117,33 @@ export default function ProfileScreen({ navigation }) {
                 cell={cell}
             />
 
-            <ScrollView>
+
+            <ScrollView style={{borderWidth: 2}}>
                 <Text style={{ paddingHorizontal: 10, fontSize: 22, marginBottom: 8, fontWeight: '700' }}>Favourite Hair Styles</Text>
-                <ScrollView horizontal>
+                
+                <ScrollView horizontal style={{borderWidth:2}}>
                     {
 
-                        faveHairStyles.map((item, index) => (
-                            <View key={index}>
-                                <FavHair img={item} id={index} />
-                            </View>
-                        ))
+                        // faveHairStyles.map((item, index) => (
+                        //     <View key={index}>
+                        //         <FavHair img={item} id={index} />
+                        //         {/* <Text>{list['favourite']}</Text> */}
+                        //     </View>
+                        // ))
+                        // list.map((item)=><Text>{item.favourite}</Text>)
+                        useEffect(()=>{
+                            list.map((item, idx)=>{
+    
+                                return(
+                                <View key={idx}>
+                                    <Image 
+                                        source={item.imgLink}
+                                        style={{ height: 125, width: 125, borderRadius: 20, borderRadius: 1}}
+                                    />
+                                </View>)
+                            })
+
+                        }, list)
                     }
 
                 </ScrollView>

@@ -1,7 +1,7 @@
 // Integration of Google map in React Native using react-native-maps
 // https://aboutreact.com/react-native-map-example/
 // Import React
-import React, { useCallback, useMemo, useRef, useContext } from 'react';
+import React, { useCallback, useMemo, useRef, useContext, useEffect } from 'react';
 // Import required components
 import {SafeAreaView, StyleSheet, View, Text, ImageBackground, ScrollView, Image, TouchableOpacity} from 'react-native';
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -17,8 +17,8 @@ export default function SalonLocation({navigation, route}) {
     const item = route?.params?.itm;
 
     const techno = {
-      latitude: 35.6762,  
-      longitude: 139.6503,  
+      latitude: -26.1869,  
+      longitude: 28.0127,  
       latitudeDelta: 0.01,  
       longitudeDelta: 0.01,
     }
@@ -27,7 +27,11 @@ export default function SalonLocation({navigation, route}) {
       mapRef.current.animateToRegion(techno, 3000)
     }
 
-    setTimeout(gotoTechno, 2000)
+
+    useEffect(()=>{setTimeout(gotoTechno, 2000)},[])
+
+
+    
 2
     const btn= {
         flex: 1,
@@ -44,6 +48,8 @@ export default function SalonLocation({navigation, route}) {
         textAlign: 'center', 
         color: 'white'
     }
+    // our coordinates   
+    // -26.186902012549083, 28.012727095015684
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
@@ -51,8 +57,8 @@ export default function SalonLocation({navigation, route}) {
           ref={mapRef}
           style={styles.mapStyle}
           initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
+            latitude: -26.1869,
+            longitude: 28.0127,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
@@ -60,14 +66,25 @@ export default function SalonLocation({navigation, route}) {
           <Marker
             draggable
             coordinate={{
-              latitude: 37.78825,
-              longitude: -122.4324,
+              latitude: -26.1869,
+              longitude: 28.0127,
             }}
             onDragEnd={
               (e) => alert(JSON.stringify(e.nativeEvent.coordinate))
             }
-            title={'Test Marker'}
-            description={'This is a description of the marker'}
+            title={'Current Location'}
+          />
+
+          <Marker
+            draggable
+            coordinate={{
+              latitude: -26.1869,
+              longitude: 28.0127,
+            }}
+            onDragEnd={
+              (e) => alert(JSON.stringify(e.nativeEvent.coordinate))
+            }
+            title={'Destination'}
           />
         </MapView>
       </View>

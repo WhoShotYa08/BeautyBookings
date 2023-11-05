@@ -194,8 +194,6 @@ const Login = () => {
             />
 
             <Btn text={'Login'} func={signInHandle}/>
-
-            <Btn text={"Login as Client"} func={handleClientSide}/>
         </View>
     )
 }

@@ -1,27 +1,35 @@
 import { SafeAreaView, Text, TextInput, View, TouchableOpacity, ImageBackground } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import  Entypo from "react-native-vector-icons/Entypo";
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
 import styles from "./Style";
 import { ScrollView } from "react-native-gesture-handler";
 import { collection, getDocs, query,} from 'firebase/firestore';
 import { db } from "../components/db/firebase_";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { UserContext } from '../components/context/user';
 
-function SaloonDetials({imgLink, name, address, workingHours, rating, contacts}){
+
+function SaloonDetials({imgLink, name, address, workingHours, rating, contacts, index}){
+    const {hairstyles, setHairstyles} = useContext(UserContext);
     const [liked, setLiked] = useState(false)
+    const [count, setCount] = useState(index);
 
     const icon = liked? "heart": "hearto";
     const heartColor = liked? 'red': '#fff';
 
     return(
-        <View style={{flexDirection: 'row', borderBottomWidth: 1, padding: 10, width: '100%', flexWrap: 'wrap', alignItems:'center', }}>
+        <View style={{flexDirection: 'row', borderBottomWidth: 2, padding: 10, width: '100%', flexWrap: 'wrap', alignItems:'center', borderRadius: 10}}>
             <View style={{flex: 1}}>
                 <ImageBackground source={{uri:imgLink}} 
                     style={{height: 125, width: 125, marginRight: 10, alignItems: 'flex-end', justifyContent:'flex-end', padding: 7}}
                 >
-                    <TouchableOpacity onPress={()=>setLiked(!liked)}>
-                        <Icon name={icon} size={21} color={heartColor}/>
+                    <TouchableOpacity onPress={()=>{
+                        setLiked(!liked)
+                        hairstyles[`${count}`] =  {pic: imgLink, favourite: liked};
+                        console.log(hairstyles)
+                    }}>
+                        <Icon name={icon} size={30} color={heartColor}/>
                     </TouchableOpacity>
                 </ImageBackground>
             </View>
@@ -159,8 +167,6 @@ export default function HomeScreen({navigation}){
                 />
             </View>
 
-            <Text style={{fontSize: 27, fontWeight:'600', paddingHorizontal: 10, backgroundColor: 'black', color:"white"}}>Registrated Businesses</Text>
-
             <ScrollView>
                 {
                     salonList.map((item, idx)=>
@@ -172,7 +178,7 @@ export default function HomeScreen({navigation}){
 
                             return(
                                 <TouchableOpacity 
-                                    style={{flexWrap: 'wrap'}} 
+                                    style={[styles.shadow, {flexWrap: 'wrap', margin: 5, borderWidth: 1, borderRadius: 10, backgroundColor: '#E5E4E2'}]} 
                                     key={idx}
                                     onPress={()=>(
                                         navigation.navigate('Salon', {itm: item})
@@ -185,6 +191,7 @@ export default function HomeScreen({navigation}){
                                         workingHours={item['details'].workingHours}
                                         rating={parseInt(item['details'].rating)}
                                         contacts={item['details'].contact}
+                                        index={idx}
                                     />
                                 </TouchableOpacity>
                             )
