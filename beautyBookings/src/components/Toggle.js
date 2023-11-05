@@ -51,14 +51,15 @@ const SignUp = () => {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }
 
-            navigation.navigate("OTP", {
+            await navigation.navigate("OTP", {
                 names: name,
                 emails: email
             });
 
             
-            const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified, userType: "client"})
+            const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified, userType: "client"});
             sendEmail(email, generateOtp(), name);
+            
             if (userResults instanceof FirestoreError) {
                 return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
             }

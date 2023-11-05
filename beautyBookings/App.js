@@ -43,6 +43,7 @@ const WelcomeNavigation = () => {
       <Stack.Screen name='Onboarding' component={Onboarding} />
       <Stack.Screen name='Registration' component={Registration} />
       <Stack.Screen name='Verified' component={VerifiedScreen} />
+      <Stack.Screen name='OTP' component={OTP} />
     </Stack.Navigator>
   )
 }
