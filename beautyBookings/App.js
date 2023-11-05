@@ -12,6 +12,9 @@ import { TopNav } from './src/screens';
 import Salon from './src/screens/Salon';
 import Appointment from './src/screens/Appointments';
 import { HeaderContext } from './src/components/context/header';
+import CardDetails from './src/screens/cardDetails';
+import Payment from './src/payments/PayFast';
+import ModalTester from './src/screens/Modal';
 
 
 const Stack = createStackNavigator();
@@ -62,6 +65,9 @@ const AppNavigation = () => {
       <Stack.Screen name='TopNav' component={TopNav} />
       <Stack.Screen name="Salon" component={Salon} />
       <Stack.Screen name='Book Appointment' component={Appointment} />
+      <Stack.Screen name='Card Details' component={CardDetails} />
+      <Stack.Screen name='Modal' component={ModalTester} />
+      <Stack.Screen name='Payment' component={Payment} />
     </Stack.Navigator>
   )
 }

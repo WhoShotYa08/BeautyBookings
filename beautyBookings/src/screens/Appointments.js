@@ -138,8 +138,8 @@ const Appointment = ({ route, navigation }) => {
           <Text style={styles.textColor}>{dates.toLocaleTimeString()}</Text>
         </View>
         <View style={styles.book}>
-          {/* <Btn text={"Book Appointment"} func={() => navigation.navigate("Modal")} /> */}
-          <Btn text={"Book Appointment"} func={handleSubmit} />
+          <Btn text={"Book Appointment"} func={() => navigation.navigate("Modal")} />
+          {/* <Btn text={"Book Appointment"} func={handleSubmit} /> */}
         </View>
       </View>
 
