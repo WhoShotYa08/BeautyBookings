@@ -26,7 +26,7 @@ const ChatBox = ({  route }) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(db, `/chat/${businessId}/${userId}`), orderBy("createdAt", "asc"));
+    const q = query(collection(db, `/chat/${businessId}/${userId}`), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const messages = [];
       querySnapshot.forEach((doc) => {
