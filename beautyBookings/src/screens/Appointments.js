@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ToastAndroid, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ToastAndroid, Image, Modal } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { doc, Timestamp, getDoc, addDoc, collection } from "firebase/firestore";
 import { db } from "../components/db/firebase_";
@@ -7,7 +7,7 @@ import { UserContext } from "../components/context/user";
 import Btn from "../components/Btn";
 
 
-const Appointment = ({ route }) => {
+const Appointment = ({ route, navigation }) => {
   const { busId } = route.params;
   const defaultDate = new Date();
   const [dates, setDate] = useState(defaultDate);
@@ -138,7 +138,7 @@ const Appointment = ({ route }) => {
           <Text style={styles.textColor}>{dates.toLocaleTimeString()}</Text>
         </View>
         <View style={styles.book}>
-          <Btn text={"Book Appointment"} func={handleSubmit} />
+          <Btn text={"Book Appointment"} func={() => navigation.navigate("Modal")} />
         </View>
       </View>
 
