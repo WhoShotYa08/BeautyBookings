@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Button, StyleSheet, View, ImageBackground, TextInput, Animated, Text, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 
-export default function CardDetails() {
+export default function CardDetails({}) {
+  const navigation = useNavigation();
   const [isAnimating, setIsAnimating] = React.useState(true);
   const [placeholder, setPlaceholder] = React.useState("XXXX   XXXX   XXXX   XXXX");
   const [expire, setExpire] = React.useState("MM/YY");
@@ -111,7 +113,7 @@ export default function CardDetails() {
         />
       </View>
       </Animated.View>
-      <Button title="Proceed to Payment" onPress={() => navigation.navigate("Payment", {cvv, expire, placeholder})} />
+      <Button title="Proceed to Payment" onPress={() => navigation.navigate("Payment", {cvv, placeholder, expire})} />
       <Button title="Flip Card" onPress={RotateAnim} />
     </View>
   );

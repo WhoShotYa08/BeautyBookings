@@ -19,7 +19,7 @@ function ModalTester({ navigation, route }) {
 
       <Modal isVisible={isModalVisible}>
         <View style={{ flex: 1 }}>
-          <CardDetails />
+          <CardDetails busId={busId}/>
 
           <Button title="Cancel" onPress={() => navigation.navigate("Book Appointment", {busId})} />
           

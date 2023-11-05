@@ -1,4 +1,4 @@
-import { View, SafeAreaView, Text, ImageBackground, TouchableOpacity, Image, ToastAndroid } from "react-native";
+import { View, SafeAreaView, Text, ImageBackground, TouchableOpacity, Image, ToastAndroid, Button } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./Style";
 import { doLogout } from "../components/minddlewares/auth";
@@ -8,7 +8,7 @@ import { UserContext } from "../components/context/user";
 import Icon from 'react-native-vector-icons/Entypo';
 import { ScrollView } from "react-native-gesture-handler";
 import Btn from "../components/Btn";
-import { getAuth, deleteUser } from "firebase/auth";
+import { getAuth, deleteUser, sendPasswordResetEmail } from "firebase/auth";
 
 
 function User({ name, surname, email, cell }) {
@@ -71,17 +71,23 @@ export default function ProfileScreen({ navigation }) {
 
     const deleteAccount = () => {
         currentUser = user["user"].uid;
+        console.log(currentUser);
 
         const auth = getAuth();
         const userAcc = auth.currentUser;
+        console.log("b4");
         deleteUser(userAcc).then(() => {
+            console.log("in process");
             deleteDoc(doc(db, "users", currentUser));
             ToastAndroid.showWithGravity(
                 "Account Deleted",
                 ToastAndroid.LONG,
                 ToastAndroid.TOP
             );
+            console.log("after remove");
             doLogout();
+            console.log(currentUser);
+            console.log("done");
         }).catch((error) => {
             ToastAndroid.showWithGravity(
                 error.toString(),
@@ -90,11 +96,31 @@ export default function ProfileScreen({ navigation }) {
             );
             console.log(error);
         });
+        console.log("over");
     }
 
-    const {hairstyles} = useContext(UserContext);
-    const list = Object.values(hairstyles)
-    
+    const { hairstyles } = useContext(UserContext);
+    const list = Object.values(hairstyles);
+
+    const Update = async () => {
+        const auth = getAuth();
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                // Password reset email sent!
+                ToastAndroid.showWithGravity(
+                    "Reset Email Sent",
+                    ToastAndroid.LONG,
+                    ToastAndroid.TOP
+                )
+                // ..
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+            });
+    }
+
     // console.log(hairstyles)
     // console.log(list)
     return (
@@ -118,10 +144,10 @@ export default function ProfileScreen({ navigation }) {
             />
 
 
-            <ScrollView style={{borderWidth: 2}}>
+            <ScrollView style={{ borderWidth: 2 }}>
                 <Text style={{ paddingHorizontal: 10, fontSize: 22, marginBottom: 8, fontWeight: '700' }}>Favourite Hair Styles</Text>
-                
-                <ScrollView horizontal style={{borderWidth:2}}>
+
+                <ScrollView horizontal style={{ borderWidth: 2 }}>
                     {
 
                         // faveHairStyles.map((item, index) => (
@@ -131,16 +157,16 @@ export default function ProfileScreen({ navigation }) {
                         //     </View>
                         // ))
                         // list.map((item)=><Text>{item.favourite}</Text>)
-                        useEffect(()=>{
-                            list.map((item, idx)=>{
-    
-                                return(
-                                <View key={idx}>
-                                    <Image 
-                                        source={item.imgLink}
-                                        style={{ height: 125, width: 125, borderRadius: 20, borderRadius: 1}}
-                                    />
-                                </View>)
+                        useEffect(() => {
+                            list.map((item, idx) => {
+
+                                return (
+                                    <View key={idx}>
+                                        <Image
+                                            source={item.imgLink}
+                                            style={{ height: 125, width: 125, borderRadius: 20, borderRadius: 1 }}
+                                        />
+                                    </View>)
                             })
 
                         }, list)
