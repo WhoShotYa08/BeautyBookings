@@ -141,7 +141,7 @@ export default function ProfileScreen({ navigation }) {
 
       <User name={name} surname={surname} email={email} cell={cell} />
 
-      <ScrollView style={{ borderWidth: 2 }}>
+      <ScrollView style={{ borderWidth: 2, width: "100%" }}>
         <Text
           style={{
             paddingHorizontal: 10,

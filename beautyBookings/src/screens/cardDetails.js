@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, StyleSheet, View, ImageBackground, TextInput, Animated, Text, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import Btn from '../components/Btn';
 
 export default function CardDetails({}) {
   const navigation = useNavigation();
@@ -53,25 +53,25 @@ export default function CardDetails({}) {
           { width: "90%", height: "90%", justifyContent: "flex-start", alignItems: "flex-start", height: "50%", zIndex: 1, position: "relative", bottom: "50%" }
         ]}>
         <View style={[styles.card, {height: desiredHeight}]}>
-          <View style={{ opacity: 0.4, backgroundColor: 'purple' }}>
+          <View style={{ opacity: 0.3, backgroundColor: 'black' }}>
             <ImageBackground
               source={{ uri: 'https://th.bing.com/th/id/OIG.AzAodbIzmvO1k_N6jJSZ?pid=ImgGn&w=1024&h=1024&rs=1' }}
               style={styles.img}
             />
           </View>
-          <View style={{}}>
+          <View style={{top: '-67%'}}>
             <TextInput
-              style={{ borderWidth: 1, marginHorizontal: 9, padding: 10, top: "-160%", fontSize: 22, textAlign: "center", display: isAnimating ? 'flex' : 'none' }}
+              style={{ borderWidth: 1, margin: 9, padding: 10, fontSize: 22, textAlign: "center", display: isAnimating ? 'flex' : 'none' }}
               placeholder={placeholder}
               inputMode="numeric"
               maxLength={16}
               onChangeText={(val) => {
                 let ind = placeholder.indexOf("X");
-                console.log(ind)
+
                 setPlaceholder((newVal) => newVal.replace(placeholder[ind], val));
               }}
             />
-            <View style={{ position: "relative", left: 70, bottom: "40%", flexDirection: "row", display: isAnimating ? 'flex' : 'none' }}>
+            <View style={{ position: "relative", left: 70, flexDirection: "row", display: isAnimating ? 'flex' : 'none' }}>
               <View style={{ position: "relative", right: 50 }}>
                 <Text style={{ display: interpolatedRotate === '90deg' ? 'none' : 'flex' }}>Expires</Text>
                 <Text style={{ display: interpolatedRotate === '90deg' ? 'none' : 'flex' }}>End</Text>
@@ -87,13 +87,14 @@ export default function CardDetails({}) {
                     setExpire((newVal) => newVal.replace(expire[ind], val));
                   }
                 }}
-                style={{ borderWidth: 1, width: "20%", padding: 10, display: interpolatedRotate <= '90deg' && isAnimating ? 'none' : 'flex' }}
+                style={{ borderWidth: 1, padding: 10, display: interpolatedRotate <= '90deg' && isAnimating ? 'none' : 'flex' }}
                 placeholder={expire}
                 inputMode="numeric"
               />
             </View>
           </View>
         </View>
+
         <View style={{ backgroundColor: "black", position: "relative", bottom: "100%", left: "20%", width: "85%", left: "7%" }}>
         <TextInput
           // onFocus={RotateAnim}
@@ -113,8 +114,8 @@ export default function CardDetails({}) {
         />
       </View>
       </Animated.View>
-      <Button title="Proceed to Payment" onPress={() => navigation.navigate("Payment", {cvv, placeholder, expire})} />
-      <Button title="Flip Card" onPress={RotateAnim} />
+      <Btn text="Proceed to Payment" func={() => navigation.navigate("Payment", {cvv, placeholder, expire})} />
+      <Btn text="Flip Card" func={RotateAnim} />
     </View>
   );
 }

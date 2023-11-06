@@ -5,6 +5,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Font from 'react-native-vector-icons/FontAwesome';
 import { collection, where, getDocs, query, doc, deleteDoc } from 'firebase/firestore';
 import { db } from "../components/db/firebase_";
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const Content = ({imgLink, name}) =>{
@@ -39,8 +40,12 @@ const Content = ({imgLink, name}) =>{
 
         </View>
 
-        <View style={{flex: 1, backgroundColor: 'black'}}>
-           
+        <View style={{height: '60%', backgroundColor: 'black'}}>
+           <Image
+                source={{uri: imgLink}}
+                style={{flex:1}}
+
+           />
         </View>
 
         <View style={{height: 250}}>
@@ -78,14 +83,30 @@ export default function MainScreen(){
         const data = await getDocs(docRef);
 
         data.forEach((doc)=>{
-            // console.log(doc.data()['services']["1"])
-            
+            const services = doc.data()['services'];
+            for (let key in services){
+                // console.log(services[key].name)
+                setService(prv=>[...prv, {name: services[key].name, image: services[key].image}])
+            }
+               
         })
     }
 
     setTimeout(salonData, 0)
     return(
         <SafeAreaView style={{flex: 1}}>
+            <ScrollView>
+                {
+                    service.map((item, idx)=>{
+                        return(
+                            <View key={idx}>
+                                <Content imgLink={item.image}/>
+                            </View>
+                        )
+                    })
+                }
+
+            </ScrollView>
             <Content/>
         </SafeAreaView>
     )
