@@ -3,12 +3,12 @@ import {useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Font from 'react-native-vector-icons/FontAwesome';
-import { collection, where, getDocs, query, doc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from "../components/db/firebase_";
 import { ScrollView } from 'react-native-gesture-handler';
 
 
-const Content = ({imgLink, name}) =>{
+const Content = ({imgLink, name, price}) =>{
 
     return(
     <View style={{flex: 1, borderWidth: 1, margin: 10}}>
@@ -48,6 +48,8 @@ const Content = ({imgLink, name}) =>{
            />
         </View>
 
+        <Text style={{fontSize: 17, fontWeight: '500', marginHorizontal: 4}}>{"Service: " + name}</Text>
+        <Text style={{fontSize: 17, fontWeight: '500', marginHorizontal: 4}}>{"Fee: R"+ price}</Text>
         <View style={{height: 250}}>
             <View style={{flexDirection: 'row', paddingHorizontal: 10, justifyContent: 'space-between'}}>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', flex: 1}}>
@@ -86,7 +88,7 @@ export default function MainScreen(){
             const services = doc.data()['services'];
             for (let key in services){
                 // console.log(services[key].name)
-                setService(prv=>[...prv, {name: services[key].name, image: services[key].image}])
+                setService(prv=>[...prv, {name: services[key].name, image: services[key].image, fee: services[key].price }])
             }
                
         })
@@ -100,7 +102,12 @@ export default function MainScreen(){
                     service.map((item, idx)=>{
                         return(
                             <View key={idx}>
-                                <Content imgLink={item.image}/>
+                                <Content 
+                                    imgLink={item.image}
+                                    name={item.name}
+                                    price={item.fee}
+                                />
+
                             </View>
                         )
                     })

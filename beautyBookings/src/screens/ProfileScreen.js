@@ -141,7 +141,7 @@ export default function ProfileScreen({ navigation }) {
 
       <User name={name} surname={surname} email={email} cell={cell} />
 
-      <ScrollView style={{ borderWidth: 2, width: "100%" }}>
+      <ScrollView style={{ width: "100%" }}>
         <Text
           style={{
             paddingHorizontal: 10,
@@ -153,7 +153,7 @@ export default function ProfileScreen({ navigation }) {
           Favourite Hair Styles
         </Text>
 
-        <ScrollView horizontal style={{ borderWidth: 2 }}>
+        <ScrollView horizontal style={{}}>
           {
             fav.map((i, id) => {
                 if(i.favourite){
