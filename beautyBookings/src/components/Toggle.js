@@ -9,6 +9,7 @@ import { FirestoreError } from "firebase/firestore";
 import {sendEmail} from "./db/email";
 import Btn from "./Btn";
 import { loginWithCredentials, getUserDetails } from "./db/firebase_";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 
 
@@ -137,6 +138,26 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const Update = () =>{
+        const auth = getAuth();
+        sendPasswordResetEmail(auth, email)
+        .then(()=>{
+            ToastAndroid.showWithGravity(
+                "Email Sent",
+                ToastAndroid.SHORT,
+                ToastAndroid.TOP
+            )
+        })
+
+        .catch((error)=>{
+            const errorMes = error.message;
+            ToastAndroid.showWithGravity(
+                errorMes.toString(),
+                ToastAndroid.SHORT,
+                ToastAndroid.TOP
+            )
+        })
+    }
 
     const handleClientSide = async () => {
         
@@ -195,6 +216,7 @@ const Login = () => {
             />
 
             <Btn text={'Login'} func={signInHandle}/>
+            <Btn text={'Forgot Password'} func={signInHandle}/>
         </View>
     )
 }
