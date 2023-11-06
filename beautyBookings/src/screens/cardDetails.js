@@ -1,14 +1,19 @@
 import * as React from 'react';
-import { Button, StyleSheet, View, ImageBackground, TextInput, Animated, Text } from 'react-native';
+import { Button, StyleSheet, View, ImageBackground, TextInput, Animated, Text, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 
-export default function CardDetails() {
+export default function CardDetails({}) {
+  const navigation = useNavigation();
   const [isAnimating, setIsAnimating] = React.useState(true);
   const [placeholder, setPlaceholder] = React.useState("XXXX   XXXX   XXXX   XXXX");
   const [expire, setExpire] = React.useState("MM/YY");
   const [cvv, setCVV] = React.useState("ↃVV");
   const [initDuration, setInitDuration] = React.useState(0);
   const [durations, setDuartion] = React.useState(3000);
+
+  const screenHeight = Dimensions.get('window').width;
+  const desiredHeight = screenHeight * 0.55;
 
   const rotateAnim = React.useRef(new Animated.Value(0)).current;
 
@@ -45,9 +50,9 @@ export default function CardDetails() {
           {
             transform: [{ rotateY: interpolatedRotate }],
           },
-          { width: "90%", height: "70%", justifyContent: "flex-start", alignItems: "flex-start" }
+          { width: "90%", height: "90%", justifyContent: "flex-start", alignItems: "flex-start", height: "50%", zIndex: 1, position: "relative", bottom: "50%" }
         ]}>
-        <View style={styles.card}>
+        <View style={[styles.card, {height: desiredHeight}]}>
           <View style={{ opacity: 0.4, backgroundColor: 'purple' }}>
             <ImageBackground
               source={{ uri: 'https://th.bing.com/th/id/OIG.AzAodbIzmvO1k_N6jJSZ?pid=ImgGn&w=1024&h=1024&rs=1' }}
@@ -89,7 +94,7 @@ export default function CardDetails() {
             </View>
           </View>
         </View>
-        <View style={{ backgroundColor: "black", position: "relative", bottom: "45%", left: "20%", width: "70%", left: "10%" }}>
+        <View style={{ backgroundColor: "black", position: "relative", bottom: "100%", left: "20%", width: "85%", left: "7%" }}>
         <TextInput
           // onFocus={RotateAnim}
           // onBlur={RotateAnim}
@@ -108,16 +113,16 @@ export default function CardDetails() {
         />
       </View>
       </Animated.View>
-      
-      <Button title="click" onPress={RotateAnim} />
+      <Button title="Proceed to Payment" onPress={() => navigation.navigate("Payment", {cvv, placeholder, expire})} />
+      <Button title="Flip Card" onPress={RotateAnim} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    width: "90%",
-    height: "60%",
+    width: "100%",
+    height: "120%",
     borderRadius: 20,
   },
   img: {

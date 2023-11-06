@@ -82,6 +82,8 @@ const Appointment = ({ route, navigation }) => {
       userLastName = docSnap.data().surname;
       userCell = docSnap.data().cellNo;
       const deadlineTimestamp = Timestamp.fromMillis(dates.getTime());
+
+      
       await addDoc(collection(db, "Appointments"), {
         email: userEmail,
         cell: userCell,
@@ -89,6 +91,7 @@ const Appointment = ({ route, navigation }) => {
         name: userName,
         surname: userLastName,
         businessId: busId.toString(),
+        paymentStatus: "Awaiting Payment"
       });
 
 
@@ -107,7 +110,7 @@ const Appointment = ({ route, navigation }) => {
   }
 
   return (
-    <View style={{ backgroundColor: "lightgrey", height: "100%" }}>
+    <View style={{ backgroundColor: "lightgrey", height: "100%", flex: 1 }}>
       <Image
         src="https://th.bing.com/th/id/OIG.6H8SBR.XDOQKakYm9tld?pid=ImgGn"
         style={{ height: "40%", width: "100%" }}
@@ -136,9 +139,10 @@ const Appointment = ({ route, navigation }) => {
           <Text style={styles.textColor}>{client.email}</Text>
           <Text style={styles.textColor}>{dates.toLocaleDateString()}</Text>
           <Text style={styles.textColor}>{dates.toLocaleTimeString()}</Text>
+          <Text style={styles.textColor}>{dates.paymentStatus}</Text>
         </View>
         <View style={styles.book}>
-          <Btn text={"Book Appointment"} func={() => navigation.navigate("Modal")} />
+          <Btn text={"Book Appointment"} func={() => navigation.navigate("Modal", {busId})} style={{flex: 1, bottom: "20%", position: "relative"}} />
           {/* <Btn text={"Book Appointment"} func={handleSubmit} /> */}
         </View>
       </View>
@@ -199,6 +203,6 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     position: "relative",
-    top: 30
+    top: 0
   }
 });

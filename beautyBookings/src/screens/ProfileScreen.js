@@ -24,7 +24,8 @@ import { UserContext } from "../components/context/user";
 import Icon from "react-native-vector-icons/Entypo";
 import { ScrollView } from "react-native-gesture-handler";
 import Btn from "../components/Btn";
-import { getAuth, deleteUser } from "firebase/auth";
+import { getAuth, deleteUser, sendPasswordResetEmail } from "firebase/auth";
+
 
 function User({ name, surname, email, cell }) {
   return (

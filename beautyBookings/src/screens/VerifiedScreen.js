@@ -13,7 +13,7 @@ export default function VerifiedScreen({navigation}){
                     autoPlay
                     loop={false}
                     resizeMode="contain"
-                    onAnimationFinish={() =>navigation.navigate("Profile")}
+                    onAnimationFinish={() =>navigation.navigate("TopNav")}
                 />
             </Animated.View>
         </SafeAreaView>

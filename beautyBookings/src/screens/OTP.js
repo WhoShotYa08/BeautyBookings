@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Text, StyleSheet, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import { Text, StyleSheet, SafeAreaView, TouchableOpacity, View, ToastAndroid} from 'react-native';
 import { TextInput } from "react-native-gesture-handler";
 import sty from "./Style";
 import GradientCircle from "../components/GradientCircle";
@@ -15,7 +15,7 @@ export default function OtpScreen({route, navigation}){
     //     return otp
     // };
 
-    const {names, emails} = route.params;
+    // const {names, emails} = route.params;
 
     const [one, setOne] = useState();
     const [two, setTwo] = useState();
@@ -27,13 +27,20 @@ export default function OtpScreen({route, navigation}){
     
     
     
-    const handleFinalOTP = () =>{
+    const handleFinalOTP = async () =>{
         let code = one + two + three+ four+ five + six
         if(otp == code){
-            navigation.navigate("Verified");
+            await navigation.navigate("Verified");
+            // setInterval(() => navigation.navigate("Salon"), 3000);
+            // navigation.navigate("TopNav");
+            // await addUser(results.user.uid, {name, surname, cellNo, email, password, verified, userType: "client"})
         }
         else{
-            console.log("Incorrect OTP");
+           ToastAndroid.showWithGravity(
+            "Incorrect OTP, please check the email sent to you",
+            ToastAndroid.LONG,
+            ToastAndroid.TOP
+           )
         }
     }
  
