@@ -6,9 +6,10 @@ import { doLogIn, doSignUp } from "./minddlewares/auth";
 import { FirebaseError } from "firebase/app";
 import { addUser, getUser } from "./minddlewares/user";
 import { FirestoreError } from "firebase/firestore";
-import {sendEmail} from "./db/email";
+import { sendEmail } from "./db/email";
 import Btn from "./Btn";
 import { loginWithCredentials, getUserDetails } from "./db/firebase_";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 
 
@@ -18,15 +19,15 @@ import { loginWithCredentials, getUserDetails } from "./db/firebase_";
 // }
 
 export const generateOtp = () => {
-    otp = Math.floor(Math.random() * (999999 - 100000) ) + 100000;
-    
+    otp = Math.floor(Math.random() * (999999 - 100000)) + 100000;
+
     return otp
 };
 
 export const verifiedContext = createContext();
 
 const SignUp = () => {
-    
+
     const navigation = useNavigation();
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -43,90 +44,121 @@ const SignUp = () => {
 
         //Form validation name
         //include sendEmail function 
-        
 
+        const onlyNumber = /^\d+$/;
         const results = await doSignUp(email, password);
-    
-            if (results instanceof FirebaseError) {
-                return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
-            }
 
-            navigation.navigate("OTP", {
-                names: name,
-                emails: email
-            });
+        if (results instanceof FirebaseError) {
+            return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
+        }
 
-            
-            const userResults = await addUser(results.user.uid, {name, surname, cellNo, email, password, verified, userType: "client"})
-            sendEmail(email, generateOtp(), name);
-            if (userResults instanceof FirestoreError) {
-                return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
+        try {
+            if (name.trim() == "" || surname.trim() == "" || cellNo.trim() == "" || confirmPassword.trim() == "") {
+                ToastAndroid.showWithGravity(
+                    "All fields are required",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.TOP
+                )
             }
-    
-            //recent changes
-            
+            else if ((cellNo.length !== 10 || !onlyNumber.test(cellNo))) {
+                ToastAndroid.showWithGravity(
+                    "Cell number should contain 10 digits",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.TOP
+                )
+            }
+            else if (password.trim() != confirmPassword.trim()) {
+                ToastAndroid.showWithGravity(
+                    "Passwords should match",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.TOP
+                )
+            }
+            else if (name.trim() != "" && surname.trim() != "" && cellNo.trim() != "" && confirmPassword.trim() != "" && password === confirmPassword && (cellNo.length == 10 || onlyNumber.test(cellNo))) {
+
+            }
+        } catch (error) {
+            ToastAndroid.showWithGravity(
+                error.toString(),
+                ToastAndroid.SHORT,
+                ToastAndroid.TOP
+            )
+        }
+
+
+
+
+
+        const userResults = await addUser(results.user.uid, { name, surname, cellNo, email, password, verified, userType: "client" })
+        sendEmail(email, generateOtp(), name);
+        if (userResults instanceof FirestoreError) {
+            return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
+        }
+
+        //recent changes
+
     }
 
     const [view, SetView] = useState(true);
     const [see, setSee] = useState(true);
 
-    const pic = view? 'eye' : 'eye-slash';
-    const icon = see? 'eye' : 'eye-slash';
+    const pic = view ? 'eye' : 'eye-slash';
+    const icon = see ? 'eye' : 'eye-slash';
 
     return (
 
-            <View style={styles.main}>
-                
-                <Element 
-                    icon={""} 
-                    placeHolder={"Name"} 
-                    onChangeText={(clientName) => setName(clientName)} 
-                    value={name} 
-                    view={false}
-                />
+        <View style={styles.main}>
 
-                <Element 
-                    icon={""} 
-                    placeHolder={"Surname"}
-                    onChangeText={(clientSurame) => setSurname(clientSurame)} 
-                    value={surname} 
-                    view={false}
-                />
+            <Element
+                icon={""}
+                placeHolder={"Name"}
+                onChangeText={(clientName) => setName(clientName)}
+                value={name}
+                view={false}
+            />
 
-                <Element 
-                    icon={""} 
-                    placeHolder={"Contact"} 
-                    onChangeText={(cellNoText) => setCellNo(cellNoText)} 
-                    value={cellNo} 
-                    view={false}
-                />
+            <Element
+                icon={""}
+                placeHolder={"Surname"}
+                onChangeText={(clientSurame) => setSurname(clientSurame)}
+                value={surname}
+                view={false}
+            />
 
-                <Element 
-                    icon={""} 
-                    placeHolder={"Email"} 
-                    onChangeText={(emailText) => setEmail(emailText)} 
-                    value={email}
-                    view={false}
-                    />
-                <Element 
-                    icon={pic} 
-                    placeHolder={"Password"} 
-                    onChangeText={(passwordText) => setPassword(passwordText)} 
-                    value={password} 
-                    view={view}
-                    func={()=>SetView(!view)}
-                />
-                <Element 
-                    icon={icon} 
-                    placeHolder={"Confirm Password"} 
-                    onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)} 
-                    value={confirmPassword} 
-                    view={see}
-                    func={()=>setSee(!see)}
-                />
-                
-                <Btn text={'Sign Up'} func={signUpHandle}/>
-            </View>
+            <Element
+                icon={""}
+                placeHolder={"Contact"}
+                onChangeText={(cellNoText) => setCellNo(cellNoText)}
+                value={cellNo}
+                view={false}
+            />
+
+            <Element
+                icon={""}
+                placeHolder={"Email"}
+                onChangeText={(emailText) => setEmail(emailText)}
+                value={email}
+                view={false}
+            />
+            <Element
+                icon={pic}
+                placeHolder={"Password"}
+                onChangeText={(passwordText) => setPassword(passwordText)}
+                value={password}
+                view={view}
+                func={() => SetView(!view)}
+            />
+            <Element
+                icon={icon}
+                placeHolder={"Confirm Password"}
+                onChangeText={(confirmPasswordText) => setConfirmPassword(confirmPasswordText)}
+                value={confirmPassword}
+                view={see}
+                func={() => setSee(!see)}
+            />
+
+            <Btn text={'Sign Up'} func={signUpHandle} />
+        </View>
     )
 }
 
@@ -138,62 +170,84 @@ const Login = () => {
 
 
     const handleClientSide = async () => {
-        
+
         const user = await loginWithCredentials(email, password);
-      
+
         if (user instanceof Error) {
-          ToastAndroid.showWithGravity(user.message, ToastAndroid.SHORT, ToastAndroid.TOP);
+            ToastAndroid.showWithGravity(user.message, ToastAndroid.SHORT, ToastAndroid.TOP);
         } else {
-          const userDetails = await getUserDetails(user.id);
-          if (userDetails) {
-            navigation.navigate('TabNav');
-          } else {
-            ToastAndroid.showWithGravity("User Credentials Not Found.", ToastAndroid.SHORT, ToastAndroid.TOP);
-          }
+            const userDetails = await getUserDetails(user.id);
+            if (userDetails) {
+                navigation.navigate('TabNav');
+            } else {
+                ToastAndroid.showWithGravity("User Credentials Not Found.", ToastAndroid.SHORT, ToastAndroid.TOP);
+            }
         }
-      }
+    }
+
+    const passwordReset = async () => {
+        const auth = getAuth();
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                ToastAndroid.showWithGravity(
+                    "Password reset email sent!",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.BOTTOM
+                )
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                ToastAndroid.showWithGravity(
+                    errorMessage.toString(),
+                    ToastAndroid.SHORT,
+                    ToastAndroid.BOTTOM
+                )
+            });
+    }
 
     const signInHandle = async () => {
 
         //Form validation name
-        
+
         const results = await doLogIn(email, password);
 
-       
-//  console.log(results);
+
+        //  console.log(results);
         if (results instanceof FirebaseError) {
             return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
         }
 
         const userResults = await getUser(results.user.uid)
-        
+
         if (userResults instanceof FirestoreError) {
             return ToastAndroid.showWithGravity(results.message, ToastAndroid.SHORT, ToastAndroid.TOP)
         }
     }
 
     const [show, setShow] = useState(true);
-    const icon = show? 'eye' : 'eye-slash';
+    const icon = show ? 'eye' : 'eye-slash';
 
     return (
         <View style={styles.main}>
-            <Element 
-                icon={""} 
-                placeHolder={"Email"} 
-                onChangeText={(emailText) => setEmail(emailText)} value={email} 
+            <Element
+                icon={""}
+                placeHolder={"Email"}
+                onChangeText={(emailText) => setEmail(emailText)} value={email}
                 view={false}
             />
 
-            <Element 
-                icon={icon} 
-                placeHolder={"Password"} 
-                onChangeText={(passwordText) => setPassword(passwordText)} 
-                value={password} 
-                func={()=>{setShow(!show)}} 
+            <Element
+                icon={icon}
+                placeHolder={"Password"}
+                onChangeText={(passwordText) => setPassword(passwordText)}
+                value={password}
+                func={() => { setShow(!show) }}
                 view={show}
             />
 
-            <Btn text={'Login'} func={signInHandle}/>
+            <Btn text={'Login'} func={signInHandle} />
+            <Btn text={'Forgot Password'} func={passwordReset} />
         </View>
     )
 }
@@ -202,18 +256,18 @@ export const Element = ({ icon, placeHolder, onChangeText, value, func, view }) 
 
     return (
         <View style={{
-            flexDirection: 'row', 
-            justifyContent:'space-between', 
-            alignItems: 'center', 
-            padding: 7, 
-            borderWidth: 1, 
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: 7,
+            borderWidth: 1,
             borderRadius: 7,
             marginVertical: 7
-         
+
         }}>
             <TextInput
                 placeholder={placeHolder}
-                style={{flex: 1}}
+                style={{ flex: 1 }}
                 onChangeText={onChangeText}
                 value={value}
                 secureTextEntry={view}
